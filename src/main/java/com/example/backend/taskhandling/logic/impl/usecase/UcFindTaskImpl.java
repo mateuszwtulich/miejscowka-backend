@@ -6,6 +6,12 @@ import com.example.backend.taskhandling.dataaccess.api.entity.TaskEntity;
 import com.example.backend.taskhandling.logic.api.mapper.TaskMapper;
 import com.example.backend.taskhandling.logic.api.to.TaskEto;
 import com.example.backend.taskhandling.logic.api.usecase.UcFindTask;
+import com.example.backend.userhandling.logic.api.mapper.AccountMapper;
+import com.example.backend.userhandling.logic.api.mapper.PermissionsMapper;
+import com.example.backend.userhandling.logic.api.mapper.RoleMapper;
+import com.example.backend.userhandling.logic.api.mapper.UserMapper;
+import com.example.backend.userhandling.logic.api.to.RoleEto;
+import com.example.backend.userhandling.logic.api.to.UserEto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +35,18 @@ public class UcFindTaskImpl implements UcFindTask {
     @Inject
     private TaskMapper taskMapper;
 
+    @Inject
+    private UserMapper userMapper;
+
+    @Inject
+    private AccountMapper accountMapper;
+
+    @Inject
+    private RoleMapper roleMapper;
+
+    @Inject
+    private PermissionsMapper permissionsMapper;
+
     @Override
     public Optional<TaskEto> findTask(Long id) throws EntityDoesNotExistException {
         Objects.requireNonNull(id, ID_CANNOT_BE_NULL);
@@ -40,14 +58,14 @@ public class UcFindTaskImpl implements UcFindTask {
             throw new EntityDoesNotExistException("Task with id " + id + " does not exist.");
         }
 
-        return Optional.of(taskMapper.toTaskEto(taskEntity.get()));
+        return Optional.of(toTaskEto(taskEntity.get()));
     }
 
     @Override
     public Optional<List<TaskEto>> findAllTasks() {
         LOG.debug(GET_ALL_TASKS_LOG);
         return Optional.of(taskDao.findAll().stream()
-        .map(taskEntity -> taskMapper.toTaskEto(taskEntity))
+        .map(taskEntity -> toTaskEto(taskEntity))
         .collect(Collectors.toList()));
     }
 
@@ -57,7 +75,24 @@ public class UcFindTaskImpl implements UcFindTask {
         LOG.debug(GET_TASKS_USER_LOG, userId);
 
         return Optional.of(taskDao.findAllByUser_Id(userId).stream()
-        .map(taskEntity -> taskMapper.toTaskEto(taskEntity)).collect(Collectors.toList()));
+        .map(taskEntity -> toTaskEto(taskEntity)).collect(Collectors.toList()));
+    }
+
+
+    private TaskEto toTaskEto(TaskEntity taskEntity){
+        TaskEto taskEto = taskMapper.toTaskEto(taskEntity);
+
+        UserEto userEto = userMapper.toUserEto(taskEntity.getUser());
+        userEto.setAccountEto(accountMapper.toAccountEto(taskEntity.getUser().getAccount()));
+
+        RoleEto roleEto = roleMapper.toRoleEto(taskEntity.getUser().getRole());
+        roleEto.setPermissionEtoList(taskEntity.getUser().getRole().getPermissions().stream()
+                .map(p -> permissionsMapper.toPermissionEto(p))
+                .collect(Collectors.toList()));
+        userEto.setRoleEto(roleEto);
+
+        taskEto.setUserEto(userEto);
+        return taskEto;
     }
 
 

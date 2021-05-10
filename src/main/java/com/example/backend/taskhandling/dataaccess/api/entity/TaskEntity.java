@@ -6,7 +6,7 @@ import com.example.backend.userhandling.dataaccess.api.entity.UserEntity;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -18,7 +18,7 @@ public class TaskEntity extends AbstractApplicationPersistenceEntity {
 
     }
 
-    public TaskEntity(String name, Date finalDate, UserEntity user){
+    public TaskEntity(String name, Timestamp finalDate, UserEntity user){
         this.name = name;
         this.finalDate = finalDate;
         this.user = user;
@@ -30,7 +30,7 @@ public class TaskEntity extends AbstractApplicationPersistenceEntity {
 
     @NotNull
     @Column(name = "FINAL_DATE", nullable = false)
-    private Date finalDate;
+    private Timestamp finalDate;
 
     @NotNull
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -49,11 +49,11 @@ public class TaskEntity extends AbstractApplicationPersistenceEntity {
         this.name = name;
     }
 
-    public Date getFinalDate() {
+    public Timestamp getFinalDate() {
         return finalDate;
     }
 
-    public void setFinalDate(Date finalDate) {
+    public void setFinalDate(Timestamp finalDate) {
         this.finalDate = finalDate;
     }
 
