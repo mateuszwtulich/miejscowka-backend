@@ -789,8 +789,15 @@ false Zulu
     <database id="2" parent="1" name="BACKEND">
       <ObjectId>109372</ObjectId>
       <Owner>backend</Owner>
-      <IntrospectionStateNumber>46754</IntrospectionStateNumber>
+      <IntrospectionStateNumber>47359</IntrospectionStateNumber>
       <Current>1</Current>
+      <Relations>sequence|table|110278|110280|1
+sequence|table|110289|110291|1
+sequence|table|110300|110302|1
+sequence|table|110311|110313|1
+sequence|table|110325|110327|1
+sequence|table|110333|110335|1
+</Relations>
     </database>
     <database id="3" parent="1" name="PHOTOSUPP">
       <ObjectId>16395</ObjectId>
@@ -878,7 +885,7 @@ false Zulu
       <Comment>standard public schema</Comment>
       <StateNumber>287</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>46755</IntrospectionStateNumber>
+      <IntrospectionStateNumber>47360</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <access-method id="21" parent="2" name="heap">
@@ -948,5 +955,471 @@ false Zulu
     <language id="30" parent="2" name="internal"/>
     <language id="31" parent="2" name="plpgsql"/>
     <language id="32" parent="2" name="sql"/>
+    <sequence id="33" parent="20" name="account_id_seq">
+      <ObjectId>110278</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47300</StateNumber>
+      <DataType>bigint|0s</DataType>
+    </sequence>
+    <sequence id="34" parent="20" name="backend_user_id_seq">
+      <ObjectId>110289</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47301</StateNumber>
+      <DataType>bigint|0s</DataType>
+    </sequence>
+    <sequence id="35" parent="20" name="permission_id_seq">
+      <ObjectId>110300</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47302</StateNumber>
+      <DataType>bigint|0s</DataType>
+    </sequence>
+    <sequence id="36" parent="20" name="role_id_seq">
+      <ObjectId>110311</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47303</StateNumber>
+      <DataType>bigint|0s</DataType>
+    </sequence>
+    <sequence id="37" parent="20" name="task_id_seq">
+      <ObjectId>110325</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47305</StateNumber>
+      <DataType>bigint|0s</DataType>
+    </sequence>
+    <sequence id="38" parent="20" name="verification_token_id_seq">
+      <ObjectId>110333</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47306</StateNumber>
+      <DataType>bigint|0s</DataType>
+    </sequence>
+    <table id="39" parent="20" name="account">
+      <ObjectId>110280</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47313</StateNumber>
+    </table>
+    <table id="40" parent="20" name="backend_user">
+      <ObjectId>110291</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47313</StateNumber>
+    </table>
+    <table id="41" parent="20" name="permission">
+      <ObjectId>110302</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47315</StateNumber>
+    </table>
+    <table id="42" parent="20" name="role">
+      <ObjectId>110313</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47314</StateNumber>
+    </table>
+    <table id="43" parent="20" name="role_permissions">
+      <ObjectId>110322</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47315</StateNumber>
+    </table>
+    <table id="44" parent="20" name="task">
+      <ObjectId>110327</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47317</StateNumber>
+    </table>
+    <table id="45" parent="20" name="verification_token">
+      <ObjectId>110335</ObjectId>
+      <Owner>backend</Owner>
+      <StateNumber>47318</StateNumber>
+    </table>
+    <column id="46" parent="39" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47300</StateNumber>
+      <DefaultExpression>nextval(&apos;account_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="47" parent="39" name="email">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47300</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="48" parent="39" name="is_activated">
+      <Position>3</Position>
+      <DataType>boolean|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47300</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="49" parent="39" name="password">
+      <Position>4</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47300</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="50" parent="39" name="username">
+      <Position>5</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47300</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="51" parent="39" name="account_pkey">
+      <ObjectId>110287</ObjectId>
+      <StateNumber>47300</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <index id="52" parent="39" name="uk_q0uja26qgu1atulenwup9rxyr">
+      <ObjectId>110341</ObjectId>
+      <StateNumber>47307</StateNumber>
+      <ColNames>email</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="53" parent="39" name="uk_gex1lmaqpg0ir5g1f5eftyaa1">
+      <ObjectId>110343</ObjectId>
+      <StateNumber>47308</StateNumber>
+      <ColNames>username</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="54" parent="39" name="account_pkey">
+      <ObjectId>110288</ObjectId>
+      <StateNumber>47300</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>account_pkey</UnderlyingIndexName>
+    </key>
+    <key id="55" parent="39" name="uk_q0uja26qgu1atulenwup9rxyr">
+      <ObjectId>110342</ObjectId>
+      <StateNumber>47307</StateNumber>
+      <ColNames>email</ColNames>
+      <UnderlyingIndexName>uk_q0uja26qgu1atulenwup9rxyr</UnderlyingIndexName>
+    </key>
+    <key id="56" parent="39" name="uk_gex1lmaqpg0ir5g1f5eftyaa1">
+      <ObjectId>110344</ObjectId>
+      <StateNumber>47308</StateNumber>
+      <ColNames>username</ColNames>
+      <UnderlyingIndexName>uk_gex1lmaqpg0ir5g1f5eftyaa1</UnderlyingIndexName>
+    </key>
+    <column id="57" parent="40" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47301</StateNumber>
+      <DefaultExpression>nextval(&apos;backend_user_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="58" parent="40" name="name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47301</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="59" parent="40" name="surname">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47301</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="60" parent="40" name="account_id">
+      <Position>4</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47301</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="61" parent="40" name="role_id">
+      <Position>5</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47301</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="62" parent="40" name="backend_user_pkey">
+      <ObjectId>110298</ObjectId>
+      <StateNumber>47301</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <index id="63" parent="40" name="uk_7fep3lyvbt6xfjg6s97yoia3p">
+      <ObjectId>110345</ObjectId>
+      <StateNumber>47309</StateNumber>
+      <ColNames>account_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="64" parent="40" name="backend_user_pkey">
+      <ObjectId>110299</ObjectId>
+      <StateNumber>47301</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>backend_user_pkey</UnderlyingIndexName>
+    </key>
+    <key id="65" parent="40" name="uk_7fep3lyvbt6xfjg6s97yoia3p">
+      <ObjectId>110346</ObjectId>
+      <StateNumber>47309</StateNumber>
+      <ColNames>account_id</ColNames>
+      <UnderlyingIndexName>uk_7fep3lyvbt6xfjg6s97yoia3p</UnderlyingIndexName>
+    </key>
+    <foreign-key id="66" parent="40" name="fkejdwvv0n8irkj4agk3dygvpli">
+      <ObjectId>110353</ObjectId>
+      <StateNumber>47313</StateNumber>
+      <ColNames>account_id</ColNames>
+      <RefTableId>110280</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>account</RefTableName>
+      <RefKeyName>account_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="67" parent="40" name="fke3u35o20ynq1abt03hrj38hsj">
+      <ObjectId>110358</ObjectId>
+      <StateNumber>47314</StateNumber>
+      <ColNames>role_id</ColNames>
+      <RefTableId>110313</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>role</RefTableName>
+      <RefKeyName>role_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="68" parent="41" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47302</StateNumber>
+      <DefaultExpression>nextval(&apos;permission_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="69" parent="41" name="description">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>47302</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="70" parent="41" name="name">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47302</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="71" parent="41" name="permission_pkey">
+      <ObjectId>110309</ObjectId>
+      <StateNumber>47302</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <index id="72" parent="41" name="uk_2ojme20jpga3r4r79tdso17gi">
+      <ObjectId>110347</ObjectId>
+      <StateNumber>47310</StateNumber>
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="73" parent="41" name="permission_pkey">
+      <ObjectId>110310</ObjectId>
+      <StateNumber>47302</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>permission_pkey</UnderlyingIndexName>
+    </key>
+    <key id="74" parent="41" name="uk_2ojme20jpga3r4r79tdso17gi">
+      <ObjectId>110348</ObjectId>
+      <StateNumber>47310</StateNumber>
+      <ColNames>name</ColNames>
+      <UnderlyingIndexName>uk_2ojme20jpga3r4r79tdso17gi</UnderlyingIndexName>
+    </key>
+    <column id="75" parent="42" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47303</StateNumber>
+      <DefaultExpression>nextval(&apos;role_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="76" parent="42" name="description">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>47303</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="77" parent="42" name="name">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47303</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="78" parent="42" name="role_pkey">
+      <ObjectId>110320</ObjectId>
+      <StateNumber>47303</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <index id="79" parent="42" name="uk_8sewwnpamngi6b1dwaa88askk">
+      <ObjectId>110349</ObjectId>
+      <StateNumber>47311</StateNumber>
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="80" parent="42" name="role_pkey">
+      <ObjectId>110321</ObjectId>
+      <StateNumber>47303</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>role_pkey</UnderlyingIndexName>
+    </key>
+    <key id="81" parent="42" name="uk_8sewwnpamngi6b1dwaa88askk">
+      <ObjectId>110350</ObjectId>
+      <StateNumber>47311</StateNumber>
+      <ColNames>name</ColNames>
+      <UnderlyingIndexName>uk_8sewwnpamngi6b1dwaa88askk</UnderlyingIndexName>
+    </key>
+    <column id="82" parent="43" name="role_id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47304</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="83" parent="43" name="permission_id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47304</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <foreign-key id="84" parent="43" name="fklodb7xh4a2xjv39gc3lsop95n">
+      <ObjectId>110368</ObjectId>
+      <StateNumber>47316</StateNumber>
+      <ColNames>role_id</ColNames>
+      <RefTableId>110313</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>role</RefTableName>
+      <RefKeyName>role_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="85" parent="43" name="fkh0v7u4w7mttcu81o8wegayr8e">
+      <ObjectId>110363</ObjectId>
+      <StateNumber>47315</StateNumber>
+      <ColNames>permission_id</ColNames>
+      <RefTableId>110302</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>permission</RefTableName>
+      <RefKeyName>permission_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="86" parent="44" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47305</StateNumber>
+      <DefaultExpression>nextval(&apos;task_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="87" parent="44" name="final_date">
+      <Position>2</Position>
+      <DataType>timestamp|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47305</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="88" parent="44" name="name">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47305</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="89" parent="44" name="user_id">
+      <Position>4</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47305</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="90" parent="44" name="task_pkey">
+      <ObjectId>110331</ObjectId>
+      <StateNumber>47305</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <index id="91" parent="44" name="uk_lerptdo9d67pejjpbfau899tm">
+      <ObjectId>110351</ObjectId>
+      <StateNumber>47312</StateNumber>
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="92" parent="44" name="task_pkey">
+      <ObjectId>110332</ObjectId>
+      <StateNumber>47305</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>task_pkey</UnderlyingIndexName>
+    </key>
+    <key id="93" parent="44" name="uk_lerptdo9d67pejjpbfau899tm">
+      <ObjectId>110352</ObjectId>
+      <StateNumber>47312</StateNumber>
+      <ColNames>name</ColNames>
+      <UnderlyingIndexName>uk_lerptdo9d67pejjpbfau899tm</UnderlyingIndexName>
+    </key>
+    <foreign-key id="94" parent="44" name="fk4els4g9g13wrwep9gba80l25h">
+      <ObjectId>110373</ObjectId>
+      <StateNumber>47317</StateNumber>
+      <ColNames>user_id</ColNames>
+      <RefTableId>110291</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>backend_user</RefTableName>
+      <RefKeyName>backend_user_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="95" parent="45" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47306</StateNumber>
+      <DefaultExpression>nextval(&apos;verification_token_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="96" parent="45" name="token">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47306</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="97" parent="45" name="account_id">
+      <Position>3</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>47306</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="98" parent="45" name="verification_token_pkey">
+      <ObjectId>110339</ObjectId>
+      <StateNumber>47306</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="99" parent="45" name="verification_token_pkey">
+      <ObjectId>110340</ObjectId>
+      <StateNumber>47306</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>verification_token_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="100" parent="45" name="fks8je6hs7qhfs93obh8dqml9fe">
+      <ObjectId>110378</ObjectId>
+      <StateNumber>47318</StateNumber>
+      <ColNames>account_id</ColNames>
+      <RefTableId>110280</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>account</RefTableName>
+      <RefKeyName>account_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
   </database-model>
 </dataSource>
