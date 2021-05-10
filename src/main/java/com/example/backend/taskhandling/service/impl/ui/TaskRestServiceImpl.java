@@ -2,6 +2,8 @@ package com.example.backend.taskhandling.service.impl.ui;
 
 import com.example.backend.general.logic.api.exception.EntityAlreadyExistsException;
 import com.example.backend.general.logic.api.exception.EntityDoesNotExistException;
+import com.example.backend.general.security.enums.ApplicationPermissions;
+import com.example.backend.general.utils.annotations.PermissionRestrict;
 import com.example.backend.taskhandling.logic.api.TaskHandling;
 import com.example.backend.taskhandling.logic.api.to.TaskEto;
 import com.example.backend.taskhandling.logic.api.to.TaskTo;
@@ -9,9 +11,14 @@ import com.example.backend.taskhandling.logic.impl.TaskHandlingImpl;
 import com.example.backend.taskhandling.service.api.ui.TaskRestService;
 import com.example.backend.userhandling.logic.api.exception.AccountAlreadyExistsException;
 import com.example.backend.userhandling.logic.api.exception.RoleHasAssignedUsersException;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -31,6 +38,7 @@ public class TaskRestServiceImpl implements TaskRestService {
     private TaskHandlingImpl taskHandling;
 
     @Override
+    @PermissionRestrict(permissions = {ApplicationPermissions.GET_TASKS})
     public ResponseEntity<TaskEto> getTask(Long id) {
         try {
             return ResponseEntity
@@ -43,6 +51,7 @@ public class TaskRestServiceImpl implements TaskRestService {
     }
 
     @Override
+    @PermissionRestrict(permissions = {ApplicationPermissions.GET_TASKS})
     public List<TaskEto> getAllTasks() {
         return taskHandling.findAllTasks().map( taskEtos -> {
             if(taskEtos.isEmpty()) {
@@ -53,6 +62,7 @@ public class TaskRestServiceImpl implements TaskRestService {
     }
 
     @Override
+    @PermissionRestrict(permissions = {ApplicationPermissions.GET_TASKS})
     public List<TaskEto> getAllTasksByUserId(Long userId) {
         return taskHandling.findAllTasksByUserId(userId).map( taskEtos -> {
             if(taskEtos.isEmpty()) {
@@ -63,6 +73,7 @@ public class TaskRestServiceImpl implements TaskRestService {
     }
 
     @Override
+    @PermissionRestrict(permissions = {ApplicationPermissions.ADD_TASK})
     public ResponseEntity<TaskEto> createTask(TaskTo taskTo, HttpServletRequest request, Errors errors) {
         try {
             return ResponseEntity
@@ -77,6 +88,7 @@ public class TaskRestServiceImpl implements TaskRestService {
     }
 
     @Override
+    @PermissionRestrict(permissions = {ApplicationPermissions.EDIT_TASK})
     public ResponseEntity<TaskEto> updateTask(Long id, TaskTo taskTo) {
         try {
             return ResponseEntity
@@ -89,6 +101,7 @@ public class TaskRestServiceImpl implements TaskRestService {
     }
 
     @Override
+    @PermissionRestrict(permissions = {ApplicationPermissions.DELETE_TASK})
     public ResponseEntity<?> deleteTask(Long id) {
         try {
             taskHandling.deleteTask(id);

@@ -28,11 +28,9 @@ public class UserEntity extends AbstractApplicationPersistenceEntity {
     this.account = account;
   }
 
-  @NotNull
   @Column(name = "NAME", nullable = false)
   private String name;
 
-  @NotNull
   @Column(name = "SURNAME", nullable = false)
   private String surname;
 

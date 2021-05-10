@@ -50,7 +50,6 @@ public interface TaskRestService extends RestService {
     })
     @GetMapping(value = "/tasks",
             produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-//  @PermissionRestrict(permissions = { ApplicationPermissions.A_CRUD_SUPER, ApplicationPermissions.A_CRUD_USERS})
     List<TaskEto> getAllTasks();
 
 
@@ -65,7 +64,6 @@ public interface TaskRestService extends RestService {
     })
     @GetMapping(value = "/tasks/user/{id}",
             produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-//  @PermissionRestrict(permissions = { ApplicationPermissions.A_CRUD_SUPER, ApplicationPermissions.A_CRUD_USERS})
     List<TaskEto> getAllTasksByUserId(@PathVariable(value = "id") Long userId);
 
     @ApiOperation(value = "Creates task",
@@ -98,8 +96,6 @@ public interface TaskRestService extends RestService {
     @PutMapping(value = "/task/{id}",
             consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-//  @PermissionRestrict(permissions = { ApplicationPermissions.A_CRUD_SUPER, ApplicationPermissions.A_CRUD_USERS,
-//      ApplicationPermissions.AUTH_USER})
     ResponseEntity<TaskEto> updateTask(@PathVariable(value = "id") Long id, @Validated @RequestBody  TaskTo taskTo);
 
     @ApiOperation(value = "Deletes Task",
@@ -113,7 +109,6 @@ public interface TaskRestService extends RestService {
     })
     @DeleteMapping(value = "/task/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-//  @PermissionRestrict(permissions = { ApplicationPermissions.A_CRUD_SUPER, ApplicationPermissions.A_CRUD_USERS })
     ResponseEntity<?> deleteTask(@PathVariable(value = "id") Long id);
 
 }

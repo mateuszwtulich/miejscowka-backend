@@ -10,6 +10,7 @@ import com.example.backend.userhandling.logic.api.to.AccountTo;
 import com.example.backend.userhandling.logic.api.to.PermissionEto;
 import com.example.backend.userhandling.logic.api.to.RoleEto;
 import com.example.backend.userhandling.logic.api.to.RoleTo;
+import com.example.backend.userhandling.logic.api.to.SignUpUserTo;
 import com.example.backend.userhandling.logic.api.to.UserEto;
 import com.example.backend.userhandling.logic.api.to.UserTo;
 import com.example.backend.userhandling.logic.api.usecase.UcDeleteRole;
@@ -122,6 +123,11 @@ public class UserHandlingImpl implements UserHandling {
   public Optional<UserEto> createUserAndAccountEntities(UserTo userTo, HttpServletRequest request, Errors errors)
       throws AccountAlreadyExistsException, AddressException, EntityDoesNotExistException {
     return ucManageUser.createUserAndAccountEntities(userTo, request, errors);
+  }
+
+  @Override
+  public Optional<UserEto> createUserAndAccountEntitiesViaSignUp(SignUpUserTo userTo, HttpServletRequest request, Errors errors) throws AccountAlreadyExistsException, AddressException, EntityDoesNotExistException {
+    return ucManageUser.createUserAndAccountEntitiesViaSignUp(userTo, request, errors);
   }
 
   @Override

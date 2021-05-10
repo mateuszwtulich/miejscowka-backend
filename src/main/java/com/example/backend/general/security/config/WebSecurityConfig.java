@@ -1,5 +1,8 @@
 package com.example.backend.general.security.config;
 
+import com.example.backend.general.security.authentication.logic.impl.jwt.filter.JwtUserAuthenticationFilter;
+import com.example.backend.general.security.authentication.logic.impl.jwt.verifier.JwtVerifier;
+import com.example.backend.general.security.authentication.logic.impl.usecase.UcLoginImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +24,12 @@ import org.springframework.web.filter.CorsFilter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final PasswordEncoder passwordEncoder;
-//  private final UcLoginImpl ucLogin;
+  private final UcLoginImpl ucLogin;
 
   @Autowired
-  public WebSecurityConfig(PasswordEncoder passwordEncoder) {
+  public WebSecurityConfig(PasswordEncoder passwordEncoder, UcLoginImpl ucLogin) {
     this.passwordEncoder = passwordEncoder;
-//    this.ucLogin = ucLogin;
+    this.ucLogin = ucLogin;
   }
 
   @Override protected void configure(HttpSecurity http) throws Exception {
@@ -34,11 +37,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
-//        .addFilter(new JwtUserAuthenticationFilter(authenticationManager(), ucLogin))
-//        .addFilterAfter(new JwtVerifier(), JwtUserAuthenticationFilter.class)
+        .addFilter(new JwtUserAuthenticationFilter(authenticationManager(), ucLogin))
+        .addFilterAfter(new JwtVerifier(), JwtUserAuthenticationFilter.class)
         .authorizeRequests()
-        .antMatchers("/user/v1/**").permitAll()
-        .antMatchers("/task/v1/**").permitAll()
         .antMatchers("/user/v1/user/account").permitAll()
         .antMatchers("/user/v1/user/account/registrationConfirm**").permitAll()
         .antMatchers("/v2/api-docs",
@@ -50,38 +51,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-resources/configuration/ui",
             "/swagger-resources/configuration/security",
             "/swagger-ui.html").permitAll()
-//        .antMatchers("/**").hasAnyAuthority(ApplicationPermissions.AUTH_USER.name())
         .anyRequest()
         .authenticated();
 
     http.cors();
   }
 
-//  @Override protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//    auth.authenticationProvider(daoAuthenticationProvider());
-//  }
+  @Override protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.authenticationProvider(daoAuthenticationProvider());
+  }
 
-//  @Bean
-//  public DaoAuthenticationProvider daoAuthenticationProvider() {
-//    DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//    provider.setPasswordEncoder(passwordEncoder);
-//    provider.setUserDetailsService(ucLogin);
-//    return provider;
-//  }
+  @Bean
+  public DaoAuthenticationProvider daoAuthenticationProvider() {
+    DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+    provider.setPasswordEncoder(passwordEncoder);
+    provider.setUserDetailsService(ucLogin);
+    return provider;
+  }
 
-//  @Bean
-//  public CorsFilter corsFilter() {
-//    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//    CorsConfiguration config = new CorsConfiguration();
-//    config.setAllowCredentials(true);
-//    config.addAllowedOrigin("*");
-//    config.addAllowedHeader("*");
-//    config.addAllowedMethod("OPTIONS");
-//    config.addAllowedMethod("GET");
-//    config.addAllowedMethod("POST");
-//    config.addAllowedMethod("PUT");
-//    config.addAllowedMethod("DELETE");
-//    source.registerCorsConfiguration("/**", config);
-//    return new CorsFilter(source);
-//  }
+  @Bean
+  public CorsFilter corsFilter() {
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    CorsConfiguration config = new CorsConfiguration();
+    config.setAllowCredentials(true);
+    config.addAllowedOrigin("*");
+    config.addAllowedHeader("*");
+    config.addAllowedMethod("OPTIONS");
+    config.addAllowedMethod("GET");
+    config.addAllowedMethod("POST");
+    config.addAllowedMethod("PUT");
+    config.addAllowedMethod("DELETE");
+    source.registerCorsConfiguration("/**", config);
+    return new CorsFilter(source);
+  }
 }
