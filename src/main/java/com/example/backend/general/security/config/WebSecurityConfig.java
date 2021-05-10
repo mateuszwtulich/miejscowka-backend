@@ -38,6 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        .addFilterAfter(new JwtVerifier(), JwtUserAuthenticationFilter.class)
         .authorizeRequests()
         .antMatchers("/user/v1/users").permitAll()
+        .antMatchers("/task/v1/**").permitAll()
         .antMatchers("/user/v1/user/account").permitAll()
         .antMatchers("/user/v1/user/account/registrationConfirm**").permitAll()
         .antMatchers("/v2/api-docs",

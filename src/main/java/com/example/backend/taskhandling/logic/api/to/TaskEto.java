@@ -1,10 +1,9 @@
 package com.example.backend.taskhandling.logic.api.to;
 
 import com.example.backend.general.dataaccess.api.entity.AbstractApplicationEntityTransportObject;
-import com.example.backend.userhandling.logic.api.to.UserEto;
+import com.example.backend.userhandling.logic.api.to.SimpleUserTo;
 import com.sun.istack.NotNull;
 
-import java.sql.Timestamp;
 import java.util.Objects;
 
 public class TaskEto  extends AbstractApplicationEntityTransportObject {
@@ -13,19 +12,19 @@ public class TaskEto  extends AbstractApplicationEntityTransportObject {
     private String name;
 
     @NotNull
-    private Timestamp finalDate;
+    private String finalDate;
 
     @NotNull
-    private UserEto userEto;
+    private SimpleUserTo userTo;
 
     public TaskEto() {
     }
 
-    public TaskEto(Long id, String name, Timestamp finalDate, UserEto userEto) {
+    public TaskEto(Long id, String name, String finalDate, SimpleUserTo userTo) {
         super(id);
         this.name = name;
         this.finalDate = finalDate;
-        this.userEto = userEto;
+        this.userTo = userTo;
     }
 
     public String getName() {
@@ -36,20 +35,20 @@ public class TaskEto  extends AbstractApplicationEntityTransportObject {
         this.name = name;
     }
 
-    public Timestamp getFinalDate() {
+    public String getFinalDate() {
         return finalDate;
     }
 
-    public void setFinalDate(Timestamp finalDate) {
+    public void setFinalDate(String finalDate) {
         this.finalDate = finalDate;
     }
 
-    public UserEto getUserEto() {
-        return userEto;
+    public SimpleUserTo getUserTo() {
+        return userTo;
     }
 
-    public void setUserEto(UserEto userEto) {
-        this.userEto = userEto;
+    public void setUserTo(SimpleUserTo userTo) {
+        this.userTo = userTo;
     }
 
     @Override
@@ -60,11 +59,11 @@ public class TaskEto  extends AbstractApplicationEntityTransportObject {
         TaskEto taskEto = (TaskEto) o;
         return name.equals(taskEto.name) &&
                 finalDate.equals(taskEto.finalDate)
-                && Objects.equals(userEto, taskEto.userEto);
+                && Objects.equals(userTo, taskEto.userTo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, finalDate, userEto);
+        return Objects.hash(super.hashCode(), name, finalDate, userTo);
     }
 }

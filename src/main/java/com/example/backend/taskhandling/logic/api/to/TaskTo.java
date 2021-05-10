@@ -10,7 +10,7 @@ public class TaskTo {
     public TaskTo() {
     }
 
-    public TaskTo(String name, Timestamp finalDate, Long userId) {
+    public TaskTo(String name, String finalDate, Long userId) {
         this.name = name;
         this.finalDate = finalDate;
         this.userId = userId;
@@ -20,7 +20,7 @@ public class TaskTo {
     private String name;
 
     @NotNull
-    private Timestamp finalDate;
+    private String finalDate;
 
     @NotNull
     private Long userId;
@@ -33,11 +33,11 @@ public class TaskTo {
         this.name = name;
     }
 
-    public Timestamp getFinalDate() {
+    public String getFinalDate() {
         return finalDate;
     }
 
-    public void setFinalDate(Timestamp finalDate) {
+    public void setFinalDate(String finalDate) {
         this.finalDate = finalDate;
     }
 

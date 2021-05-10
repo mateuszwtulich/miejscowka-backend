@@ -3,8 +3,6 @@ package com.example.backend.taskhandling.service.api.ui;
 import com.example.backend.general.common.api.RestService;
 import com.example.backend.taskhandling.logic.api.to.TaskEto;
 import com.example.backend.taskhandling.logic.api.to.TaskTo;
-import com.example.backend.userhandling.logic.api.to.UserEto;
-import com.example.backend.userhandling.logic.api.to.UserTo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -12,11 +10,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
 @RestController
 @RequestMapping(value = "/task/v1")
 public interface TaskRestService extends RestService {
@@ -30,7 +34,8 @@ public interface TaskRestService extends RestService {
             @ApiResponse(code = 403, message = "You dont have permissions for this action!"),
             @ApiResponse(code = 429, message = "Too many requests"),
     })
-    @GetMapping(value = "task/{id}")
+    @GetMapping(value = "task/{id}",
+        produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<TaskEto> getTask(@PathVariable(value = "id") Long id);
 
 

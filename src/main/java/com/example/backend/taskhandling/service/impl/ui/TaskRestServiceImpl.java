@@ -12,6 +12,7 @@ import com.example.backend.userhandling.logic.api.exception.RoleHasAssignedUsers
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.inject.Inject;
@@ -21,6 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@RestController
 public class TaskRestServiceImpl implements TaskRestService {
     private static String TASKS_NOT_EXIST = "Tasks do not exist.";
     private static final String BASE_URL = "task/v1/";

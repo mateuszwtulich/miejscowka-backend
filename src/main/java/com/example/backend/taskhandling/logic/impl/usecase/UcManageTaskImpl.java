@@ -17,16 +17,22 @@ import com.example.backend.userhandling.logic.api.mapper.PermissionsMapper;
 import com.example.backend.userhandling.logic.api.mapper.RoleMapper;
 import com.example.backend.userhandling.logic.api.mapper.UserMapper;
 import com.example.backend.userhandling.logic.api.to.RoleEto;
+import com.example.backend.userhandling.logic.api.to.SimpleUserTo;
 import com.example.backend.userhandling.logic.api.to.UserEto;
 import com.example.backend.userhandling.logic.impl.usecase.UcManageUserImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.annotation.Validated;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Validated
+@Named
 public class UcManageTaskImpl implements UcManageTask {
 
     private static final Logger LOG = LoggerFactory.getLogger(UcManageTaskImpl.class);
@@ -74,7 +80,7 @@ public class UcManageTaskImpl implements UcManageTask {
         TaskEntity taskEntity = getTaskById(taskId);
         taskEntity.setName(taskTo.getName());
         taskEntity.setUser(getUserById(taskTo.getUserId()));
-        taskEntity.setFinalDate(taskTo.getFinalDate());
+        taskEntity.setFinalDate(LocalDate.parse(taskTo.getFinalDate()));
 
         return toTaskEto(taskEntity);
     }
@@ -95,17 +101,16 @@ public class UcManageTaskImpl implements UcManageTask {
 
     private Optional<TaskEto> toTaskEto(TaskEntity taskEntity){
         TaskEto taskEto = taskMapper.toTaskEto(taskEntity);
-
-        UserEto userEto = userMapper.toUserEto(taskEntity.getUser());
-        userEto.setAccountEto(accountMapper.toAccountEto(taskEntity.getUser().getAccount()));
-
-        RoleEto roleEto = roleMapper.toRoleEto(taskEntity.getUser().getRole());
-        roleEto.setPermissionEtoList(taskEntity.getUser().getRole().getPermissions().stream()
-                .map(p -> permissionsMapper.toPermissionEto(p))
-                .collect(Collectors.toList()));
-        userEto.setRoleEto(roleEto);
-
-        taskEto.setUserEto(userEto);
+        taskEto.setUserTo(toUserTo(taskEntity.getUser()));
         return Optional.of(taskEto);
+    }
+
+    private SimpleUserTo toUserTo(UserEntity userEntity) {
+        SimpleUserTo userTo = new SimpleUserTo();
+        userTo.setName(userEntity.getName());
+        userTo.setSurname(userEntity.getSurname());
+        userTo.setAccountId(userEntity.getAccount().getId());
+        userTo.setRoleId(userEntity.getAccount().getId());
+        return userTo;
     }
 }

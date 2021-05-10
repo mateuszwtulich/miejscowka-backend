@@ -8,11 +8,15 @@ import com.example.backend.taskhandling.logic.api.to.TaskTo;
 import com.example.backend.taskhandling.logic.api.usecase.UcDeleteTask;
 import com.example.backend.taskhandling.logic.api.usecase.UcFindTask;
 import com.example.backend.taskhandling.logic.api.usecase.UcManageTask;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@Transactional
 public class TaskHandlingImpl implements TaskHandling {
 
     @Inject
