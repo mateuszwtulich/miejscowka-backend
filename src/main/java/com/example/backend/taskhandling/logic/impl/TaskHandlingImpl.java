@@ -1,10 +1,13 @@
 package com.example.backend.taskhandling.logic.impl;
 
+import com.example.backend.general.logic.api.exception.EntityAlreadyExistsException;
 import com.example.backend.general.logic.api.exception.EntityDoesNotExistException;
 import com.example.backend.taskhandling.logic.api.TaskHandling;
 import com.example.backend.taskhandling.logic.api.to.TaskEto;
+import com.example.backend.taskhandling.logic.api.to.TaskTo;
 import com.example.backend.taskhandling.logic.api.usecase.UcDeleteTask;
 import com.example.backend.taskhandling.logic.api.usecase.UcFindTask;
+import com.example.backend.taskhandling.logic.api.usecase.UcManageTask;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -17,6 +20,9 @@ public class TaskHandlingImpl implements TaskHandling {
 
     @Inject
     private UcDeleteTask ucDeleteTask;
+
+    @Inject
+    private UcManageTask ucManageTask;
 
 
     @Override
@@ -37,5 +43,16 @@ public class TaskHandlingImpl implements TaskHandling {
     @Override
     public Optional<List<TaskEto>> findAllTasksByUserId(Long userId) {
         return ucFindTask.findAllTasksByUserId(userId);
+    }
+
+
+    @Override
+    public Optional<TaskEto> createTask(TaskTo taskTo) throws EntityAlreadyExistsException, EntityDoesNotExistException {
+        return ucManageTask.createTask(taskTo);
+    }
+
+    @Override
+    public Optional<TaskEto> updateTask(TaskTo taskTo, Long taskId) throws EntityDoesNotExistException {
+        return ucManageTask.updateTask(taskTo, taskId);
     }
 }
