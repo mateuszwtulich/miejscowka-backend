@@ -7213,6 +7213,7 @@ sequence|table|659763|659765|1
     </table>
     <table id="1305" parent="1284" name="permission">
       <ObjectId>659732</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>txzeognjwtlywb</Owner>
       <StateNumber>417575</StateNumber>
     </table>
