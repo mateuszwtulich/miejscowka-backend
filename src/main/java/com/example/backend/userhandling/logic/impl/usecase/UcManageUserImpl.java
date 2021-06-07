@@ -2,9 +2,11 @@ package com.example.backend.userhandling.logic.impl.usecase;
 
 import com.example.backend.general.logic.api.exception.EntityDoesNotExistException;
 import com.example.backend.userhandling.dataaccess.api.dao.AccountDao;
+import com.example.backend.userhandling.dataaccess.api.dao.PermissionDao;
 import com.example.backend.userhandling.dataaccess.api.dao.RoleDao;
 import com.example.backend.userhandling.dataaccess.api.dao.UserDao;
 import com.example.backend.userhandling.dataaccess.api.entity.AccountEntity;
+import com.example.backend.userhandling.dataaccess.api.entity.PermissionEntity;
 import com.example.backend.userhandling.dataaccess.api.entity.RoleEntity;
 import com.example.backend.userhandling.dataaccess.api.entity.UserEntity;
 import com.example.backend.userhandling.logic.api.exception.AccountAlreadyExistsException;
@@ -15,11 +17,13 @@ import com.example.backend.userhandling.logic.api.mapper.UserMapper;
 import com.example.backend.userhandling.logic.api.to.AccountEto;
 import com.example.backend.userhandling.logic.api.to.AccountTo;
 import com.example.backend.userhandling.logic.api.to.RoleEto;
+import com.example.backend.userhandling.logic.api.to.SignUpUserTo;
 import com.example.backend.userhandling.logic.api.to.UserEto;
 import com.example.backend.userhandling.logic.api.to.UserTo;
 import com.example.backend.userhandling.logic.api.usecase.UcManageUser;
 import com.example.backend.userhandling.logic.impl.events.OnRegistrationCompleteEvent;
 import com.example.backend.userhandling.logic.impl.validator.AccountValidator;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
@@ -34,6 +38,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -59,6 +65,9 @@ public class UcManageUserImpl implements UcManageUser {
 
   @Inject
   private RoleDao roleDao;
+
+  @Inject
+  private PermissionDao permissionDao;
 
   @Inject
   private UserMapper userMapper;
@@ -102,6 +111,37 @@ public class UcManageUserImpl implements UcManageUser {
     UserEntity userSaved = userDao.save(userEntity);
 
     sendMailOfAccountCreation(accountEntity, userTo.getAccountTo().getPassword(), request, errors);
+
+    return toUserEto(userSaved);
+  }
+
+  @Override
+  public Optional<UserEto> createUserAndAccountEntitiesViaSignUp(SignUpUserTo userTo, HttpServletRequest request, Errors errors)
+      throws AccountAlreadyExistsException, AddressException, EntityDoesNotExistException {
+    LOG.debug(CREATE_USER_LOG, userTo.getEmail());
+    AccountTo accountTo = new AccountTo();
+    accountTo.setEmail(userTo.getEmail());
+    accountTo.setPassword(userTo.getPassword());
+    AccountEntity accountEntity = createAccountEntities(accountTo);
+
+    List<PermissionEntity> permissionEntityList = new ArrayList<>();
+    permissionEntityList.add(permissionDao.findById(12L).get());
+    permissionEntityList.add(permissionDao.findById(11L).get());
+
+    RoleEntity roleEntity = new RoleEntity();
+    roleEntity.setName(userTo.getSurname());
+    roleEntity.setDescription(userTo.getName());
+    roleEntity.setPermissions(permissionEntityList);
+    roleDao.save(roleEntity);
+
+    UserEntity userEntity = new UserEntity();
+    userEntity.setSurname(userTo.getSurname());
+    userEntity.setName(userTo.getName());
+    userEntity.setRole(roleEntity);
+    userEntity.setAccount(accountEntity);
+    UserEntity userSaved = userDao.save(userEntity);
+
+    sendMailOfAccountCreation(accountEntity, userTo.getPassword(), request, errors);
 
     return toUserEto(userSaved);
   }
@@ -221,7 +261,7 @@ public class UcManageUserImpl implements UcManageUser {
     StringBuilder generatePasswordMessage = new StringBuilder();
     StringBuilder message = new StringBuilder();
     message.append(messages.getMessage("message.passwordSucc", null, Locale.getDefault()));
-    message.append("\n\nHasło: " + password + "\n");
+    message.append("\n\nPassword: " + password + "\n");
     message.append("\r\n\n" + messages.getMessage("frontend", null, Locale.getDefault()) + "/login" + generatePasswordMessage.toString());
 
     SimpleMailMessage email = new SimpleMailMessage();
@@ -237,7 +277,7 @@ public class UcManageUserImpl implements UcManageUser {
     StringBuilder generatePasswordMessage = new StringBuilder();
     StringBuilder message = new StringBuilder();
     message.append(messages.getMessage("message.usernameSucc", null, Locale.getDefault()));
-    message.append("\n\nNazwa użytkownika: " + account.getUsername() + "\n");
+    message.append("\n\nUsername: " + account.getUsername() + "\n");
     message.append("\r\n\n" + messages.getMessage("frontend", null, Locale.getDefault()) + "/login" + generatePasswordMessage.toString());
 
     SimpleMailMessage email = new SimpleMailMessage();

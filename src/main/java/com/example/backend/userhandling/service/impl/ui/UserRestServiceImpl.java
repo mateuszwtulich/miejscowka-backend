@@ -2,6 +2,8 @@ package com.example.backend.userhandling.service.impl.ui;
 
 import com.example.backend.general.logic.api.exception.EntityAlreadyExistsException;
 import com.example.backend.general.logic.api.exception.EntityDoesNotExistException;
+import com.example.backend.general.security.enums.ApplicationPermissions;
+import com.example.backend.general.utils.annotations.PermissionRestrict;
 import com.example.backend.userhandling.logic.api.exception.AccountAlreadyExistsException;
 import com.example.backend.userhandling.logic.api.exception.RoleHasAssignedUsersException;
 import com.example.backend.userhandling.logic.api.to.AccountEto;
@@ -9,6 +11,7 @@ import com.example.backend.userhandling.logic.api.to.AccountTo;
 import com.example.backend.userhandling.logic.api.to.PermissionEto;
 import com.example.backend.userhandling.logic.api.to.RoleEto;
 import com.example.backend.userhandling.logic.api.to.RoleTo;
+import com.example.backend.userhandling.logic.api.to.SignUpUserTo;
 import com.example.backend.userhandling.logic.api.to.UserEto;
 import com.example.backend.userhandling.logic.api.to.UserTo;
 import com.example.backend.userhandling.logic.impl.UserHandlingImpl;
@@ -38,6 +41,7 @@ public class UserRestServiceImpl implements UserRestService {
   private UserHandlingImpl userHandling;
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.GET_USERS})
   public ResponseEntity<UserEto> getUser(Long id) {
     try {
       return ResponseEntity
@@ -50,6 +54,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.GET_USERS})
   public List<UserEto> getAllUsers() {
     return userHandling.findAllUsers().map( userEtos -> {
       if(userEtos.isEmpty()) {
@@ -60,6 +65,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.GET_USERS})
   public List<AccountEto> getAllAccounts() {
     return userHandling.findAllAccounts().map( accountEtos -> {
       if(accountEtos.isEmpty()) {
@@ -70,6 +76,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.GET_USERS})
   public List<UserEto> getAllUsersByRoleId(Long roleId) {
     return userHandling.findAllUsersByRoleId(roleId).map( userEtos -> {
       if(userEtos.isEmpty()) {
@@ -80,6 +87,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.ADD_USER})
   public ResponseEntity<UserEto> createUser(UserTo userTo, HttpServletRequest request, Errors errors) {
     try {
       return ResponseEntity
@@ -94,6 +102,22 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.ADD_USER})
+  public ResponseEntity<UserEto> signUpUser(SignUpUserTo userTo, HttpServletRequest request, Errors errors) {
+    try {
+      return ResponseEntity
+          .created(new URI(BASE_URL + "user/singUp"))
+          .body(userHandling.createUserAndAccountEntitiesViaSignUp(userTo, request, errors).orElseThrow(() ->
+              new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)));
+    } catch (AccountAlreadyExistsException | AddressException | URISyntaxException e) {
+      throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage());
+    } catch (EntityDoesNotExistException e) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+    }
+  }
+
+  @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.ADD_USER})
   public RedirectView confirmRegistration(String token) {
     try {
       return userHandling.confirmRegistration(token).orElseThrow(() ->
@@ -104,6 +128,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.EDIT_USER})
   public ResponseEntity<UserEto> updateUser(Long id, UserTo userTo) {
     try {
       return ResponseEntity
@@ -116,6 +141,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.EDIT_USER})
   public ResponseEntity<AccountEto> updateUserAccount(Long userId, AccountTo accountTo) {
     try {
       return ResponseEntity
@@ -130,6 +156,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.EDIT_USER})
   public ResponseEntity<?> updateAccountPassword(AccountTo accountTo) {
     try {
       userHandling.updatePassword(accountTo);
@@ -140,6 +167,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.DELETE_USER})
   public ResponseEntity<?> deleteUser(Long id) {
     try {
       userHandling.deleteUserAndAllRelatedEntities(id);
@@ -150,6 +178,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.GET_ROLES})
   public ResponseEntity<RoleEto> getRole(Long id) {
     try {
       return ResponseEntity
@@ -162,6 +191,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.GET_ROLES})
   public List<RoleEto> getAllRoles() {
     return userHandling.findAllRoles().map(roleEtos -> {
       if (roleEtos.isEmpty()) {
@@ -172,6 +202,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.GET_ROLES})
   public List<PermissionEto> getAllPermissions() {
     return userHandling.findAllPermissions().map(permissionEtos -> {
       if (permissionEtos.isEmpty()) {
@@ -181,6 +212,7 @@ public class UserRestServiceImpl implements UserRestService {
     }).orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));    }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.ADD_ROLE})
   public ResponseEntity<RoleEto> createRole(RoleTo roleTo) {
     try {
       return ResponseEntity
@@ -195,6 +227,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.EDIT_ROLE})
   public ResponseEntity<RoleEto> updateRole(Long id, RoleTo roleTo) {
     try {
       return ResponseEntity
@@ -209,6 +242,7 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
+  @PermissionRestrict(permissions = {ApplicationPermissions.DELETE_ROLE})
   public ResponseEntity<?> deleteRole(Long id) {
     try {
       userHandling.deleteRole(id);
