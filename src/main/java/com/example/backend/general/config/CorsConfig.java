@@ -15,7 +15,7 @@ public class CorsConfig
       @Override
       public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").
-            allowedOrigins("http://AiOBSUIoT-frontend.herokuapp.com").
+            allowedOrigins("http://aiobsuiot-frontend.herokuapp.com").
             allowedMethods("GET", "POST", "PUT", "DELETE")
             .allowedHeaders("*")
             .allowCredentials( true )
