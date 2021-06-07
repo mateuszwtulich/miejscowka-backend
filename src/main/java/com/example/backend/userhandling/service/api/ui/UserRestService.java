@@ -118,7 +118,7 @@ public interface UserRestService extends RestService {
       @ApiResponse(code = 422, message = "Could not process entity"),
       @ApiResponse(code = 429, message = "Too many requests"),
   })
-  @PostMapping(value = "/user/signUp",
+  @PostMapping(value = "/user/signup",
       consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   ResponseEntity<UserEto> signUpUser(@Validated @RequestBody SignUpUserTo userTo, HttpServletRequest request, Errors errors);

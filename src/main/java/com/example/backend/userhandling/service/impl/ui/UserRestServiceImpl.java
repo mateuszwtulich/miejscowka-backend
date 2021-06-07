@@ -102,11 +102,10 @@ public class UserRestServiceImpl implements UserRestService {
   }
 
   @Override
-  @PermissionRestrict(permissions = {ApplicationPermissions.ADD_USER})
   public ResponseEntity<UserEto> signUpUser(SignUpUserTo userTo, HttpServletRequest request, Errors errors) {
     try {
       return ResponseEntity
-          .created(new URI(BASE_URL + "user/singUp"))
+          .created(new URI(BASE_URL + "user/singup"))
           .body(userHandling.createUserAndAccountEntitiesViaSignUp(userTo, request, errors).orElseThrow(() ->
               new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)));
     } catch (AccountAlreadyExistsException | AddressException | URISyntaxException e) {
