@@ -24,8 +24,6 @@ import java.util.stream.Collectors;
 
 public class JwtVerifier extends OncePerRequestFilter {
 
-  public static final String X_FORWARDED_PROTO = "x-forwarded-proto";
-
   @Override
   protected void doFilterInternal(HttpServletRequest httpServletRequest,
                                   HttpServletResponse httpServletResponse,
@@ -35,13 +33,6 @@ public class JwtVerifier extends OncePerRequestFilter {
 
 
     if(Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
-      if (httpServletRequest.getHeader(X_FORWARDED_PROTO) != null) {
-        if (httpServletRequest.getHeader(X_FORWARDED_PROTO).indexOf("https") != 0) {
-          httpServletResponse.sendRedirect("https://" + httpServletRequest.getServerName() +
-              (httpServletRequest.getPathInfo() == null ? "" : httpServletRequest.getPathInfo()));
-          return;
-        }
-      }
       filterChain.doFilter(httpServletRequest, httpServletResponse);
       return;
     }
