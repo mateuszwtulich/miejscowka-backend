@@ -1,6 +1,7 @@
 package com.example.backend.userhandling.dataaccess.api.entity;
 
 import com.example.backend.general.dataaccess.api.entity.AbstractApplicationPersistenceEntity;
+import com.example.backend.taskhandling.dataaccess.api.entity.TaskEntity;
 import com.sun.istack.NotNull;
 
 import javax.persistence.CascadeType;
@@ -9,8 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -43,6 +46,9 @@ public class UserEntity extends AbstractApplicationPersistenceEntity {
   @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
   @JoinColumn(name = "ACCOUNT_ID", nullable = false, referencedColumnName = "id", unique = true)
   private AccountEntity account;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy ="user", cascade = CascadeType.MERGE, orphanRemoval = true)
+  private List<TaskEntity> tasks;
 
   public String getName() {
     return name;
