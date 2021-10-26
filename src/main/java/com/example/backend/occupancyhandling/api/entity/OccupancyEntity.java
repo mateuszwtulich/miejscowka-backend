@@ -1,6 +1,6 @@
 package com.example.backend.occupancyhandling.api.entity;
 
-import com.example.backend.general.dataaccess.api.entity.AbstractApplicationPersistenceEntity;
+import com.example.backend.placehandling.dataaccess.api.entity.PlaceEntity;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "OCCUMPANCY")
 @IdClass(OccupancyId.class)
-public class Occupancy {
+public class OccupancyEntity {
 
     @Id
     @NotNull
@@ -23,7 +23,7 @@ public class Occupancy {
     @NotNull
     @JoinColumn(name = "PLACE", nullable = false)
     @ManyToOne
-    private Place place;
+    private PlaceEntity place;
 
     @NotNull
     @Column(name = "NUMBER_OF_PEOPLE", nullable = false)
@@ -48,11 +48,11 @@ public class Occupancy {
         this.placeId = placeId;
     }
 
-    public Place getPlace() {
+    public PlaceEntity getPlace() {
         return place;
     }
 
-    public void setPlace(Place place) {
+    public void setPlace(PlaceEntity place) {
         this.place = place;
     }
 
@@ -76,7 +76,7 @@ public class Occupancy {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Occupancy occupancy = (Occupancy) o;
+        OccupancyEntity occupancy = (OccupancyEntity) o;
         return number_of_people == occupancy.number_of_people && percentage_occupancy == occupancy.percentage_occupancy && timeId.equals(occupancy.timeId) && placeId.equals(occupancy.placeId) && place.equals(occupancy.place);
     }
 
@@ -85,15 +85,4 @@ public class Occupancy {
         return Objects.hash(timeId, placeId, place, number_of_people, percentage_occupancy);
     }
 
-    //    @NotNull
-//    @Column(name = "NAME", nullable = false, unique = true)
-//    private String name;
-//
-//    @NotNull
-//    @Column(name = "FINAL_DATE", nullable = false)
-//    private LocalDate finalDate;
-//
-//    @NotNull
-//    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "USER_ID", nullable = false, referencedColumnName = "id")
 }

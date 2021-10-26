@@ -1,6 +1,8 @@
 package com.example.backend.placehandling.dataaccess.api.entity;
 
 import com.example.backend.general.dataaccess.api.entity.AbstractApplicationPersistenceEntity;
+import com.example.backend.occupancyhandling.api.entity.OccupancyEntity;
+import com.example.backend.occupancyhandling.api.entity.OccupancyId;
 import com.example.backend.userhandling.dataaccess.api.entity.PermissionEntity;
 import com.example.backend.userhandling.dataaccess.api.entity.UserEntity;
 import com.sun.istack.NotNull;
@@ -59,11 +61,14 @@ public class PlaceEntity extends AbstractApplicationPersistenceEntity {
     @JoinColumn(name = "CATEGORY_ID", nullable = false, referencedColumnName = "id")
     private CategoryEntity category;
 
-    public PlaceEntity(){
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "place", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<OccupancyEntity> occupancies;
+
+    public PlaceEntity() {
 
     }
 
-    public PlaceEntity(String name, String capacity, String description, String street, String buildingNumber, String apartmentNumber, List<UserEntity> users, OpeningHoursEntity openingHours, List<PlaceImageEntity> placeImages, CategoryEntity category) {
+    public PlaceEntity(String name, String capacity, String description, String street, String buildingNumber, String apartmentNumber, List<UserEntity> users, OpeningHoursEntity openingHours, List<PlaceImageEntity> placeImages, CategoryEntity category, List<OccupancyEntity> occupancies) {
         this.name = name;
         this.capacity = capacity;
         this.description = description;
@@ -74,6 +79,7 @@ public class PlaceEntity extends AbstractApplicationPersistenceEntity {
         this.openingHours = openingHours;
         this.placeImages = placeImages;
         this.category = category;
+        this.occupancies = occupancies;
     }
 
     public String getName() {
@@ -156,26 +162,25 @@ public class PlaceEntity extends AbstractApplicationPersistenceEntity {
         this.category = category;
     }
 
+    public List<OccupancyEntity> getOccupancies() {
+        return occupancies;
+    }
+
+    public void setOccupancies(List<OccupancyEntity> occupancies) {
+        this.occupancies = occupancies;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         PlaceEntity that = (PlaceEntity) o;
-        return name.equals(that.name) &&
-                capacity.equals(that.capacity) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(street, that.street) &&
-                Objects.equals(buildingNumber, that.buildingNumber) &&
-                Objects.equals(apartmentNumber, that.apartmentNumber) &&
-                Objects.equals(users, that.users) &&
-                openingHours.equals(that.openingHours) &&
-                Objects.equals(placeImages, that.placeImages) &&
-                category.equals(that.category);
+        return name.equals(that.name) && capacity.equals(that.capacity) && Objects.equals(description, that.description) && Objects.equals(street, that.street) && Objects.equals(buildingNumber, that.buildingNumber) && Objects.equals(apartmentNumber, that.apartmentNumber) && Objects.equals(users, that.users) && Objects.equals(openingHours, that.openingHours) && Objects.equals(placeImages, that.placeImages) && Objects.equals(category, that.category) && Objects.equals(occupancies, that.occupancies);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, capacity, description, street, buildingNumber, apartmentNumber, users, openingHours, placeImages, category);
+        return Objects.hash(super.hashCode(), name, capacity, description, street, buildingNumber, apartmentNumber, users, openingHours, placeImages, category, occupancies);
     }
 }
