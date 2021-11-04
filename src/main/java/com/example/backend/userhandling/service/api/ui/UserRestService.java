@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/user/v1")
+@RequestMapping
 public interface UserRestService extends RestService {
 
   @ApiOperation(value = "Get user by id.",
@@ -57,7 +57,7 @@ public interface UserRestService extends RestService {
       @ApiResponse(code = 403, message = "You dont have permissions for this action!"),
       @ApiResponse(code = 429, message = "Too many requests"),
   })
-  @GetMapping(value = "/users",
+  @GetMapping(value = "/user",
       produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
   List<UserEto> getAllUsers();
 
@@ -71,7 +71,7 @@ public interface UserRestService extends RestService {
       @ApiResponse(code = 403, message = "You dont have permissions for this action!"),
       @ApiResponse(code = 429, message = "Too many requests"),
   })
-  @GetMapping(value = "/users/accounts",
+  @GetMapping(value = "/user/account",
       produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
   List<AccountEto> getAllAccounts();
 
@@ -85,7 +85,7 @@ public interface UserRestService extends RestService {
       @ApiResponse(code = 403, message = "You dont have permissions for this action!"),
       @ApiResponse(code = 429, message = "Too many requests"),
   })
-  @GetMapping(value = "/users/role/{id}",
+  @GetMapping(value = "/user/role/{id}",
       produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
   List<UserEto> getAllUsersByRoleId(@PathVariable(value = "id") Long roleId);
 
@@ -223,7 +223,7 @@ public interface UserRestService extends RestService {
       @ApiResponse(code = 403, message = "You dont have permissions for this action!"),
       @ApiResponse(code = 429, message = "Too many requests"),
   })
-  @GetMapping(value = "/roles",
+  @GetMapping(value = "/role",
       produces = MediaType.APPLICATION_JSON_VALUE)
   List<RoleEto> getAllRoles();
 
@@ -237,7 +237,7 @@ public interface UserRestService extends RestService {
       @ApiResponse(code = 403, message = "You dont have permissions for this action!"),
       @ApiResponse(code = 429, message = "Too many requests"),
   })
-  @GetMapping(value = "/permissions",
+  @GetMapping(value = "/permission",
       produces = MediaType.APPLICATION_JSON_VALUE)
   List<PermissionEto> getAllPermissions();
 
