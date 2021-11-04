@@ -1,4 +1,4 @@
-package com.example.backend.occupancyhandling.api.entity;
+package com.example.backend.occupancyhandling.dataaccess.api.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

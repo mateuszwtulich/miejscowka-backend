@@ -1,4 +1,4 @@
-package com.example.backend.occupancyhandling.api.entity;
+package com.example.backend.occupancyhandling.dataaccess.api.entity;
 
 import com.example.backend.placehandling.dataaccess.api.entity.PlaceEntity;
 import com.sun.istack.NotNull;

@@ -1,9 +1,7 @@
 package com.example.backend.placehandling.dataaccess.api.entity;
 
 import com.example.backend.general.dataaccess.api.entity.AbstractApplicationPersistenceEntity;
-import com.example.backend.occupancyhandling.api.entity.OccupancyEntity;
-import com.example.backend.occupancyhandling.api.entity.OccupancyId;
-import com.example.backend.userhandling.dataaccess.api.entity.PermissionEntity;
+import com.example.backend.occupancyhandling.dataaccess.api.entity.OccupancyEntity;
 import com.example.backend.userhandling.dataaccess.api.entity.UserEntity;
 import com.sun.istack.NotNull;
 
