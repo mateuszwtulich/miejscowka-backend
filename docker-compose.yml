@@ -1,0 +1,29 @@
+version: '1'
+
+services:
+  Backend:
+    image: 'miejscowka-backend:latest'
+    ports:
+      - "8090:8080"
+    depends_on:
+      PostgreSQL:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/Miejscowka
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  PostgreSQL:
+    image: postgres
+    ports:
+      - "5050:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=Miejscowka
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U Miejscowka" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
