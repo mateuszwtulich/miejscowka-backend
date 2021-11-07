@@ -9,6 +9,8 @@ import java.util.Objects;
 @Table(name = "OPENING_HOURS")
 public class OpeningHoursEntity {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "PLACE_ID")
     private Long placeId;

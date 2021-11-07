@@ -113,7 +113,6 @@ public interface PlaceRestService extends RestService {
             @ApiResponse(code = 429, message = "Too many requests"),
     })
     @PostMapping(value = "/place/{placeId}/favourite/{userId}",
-            consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PlaceCto> addFavouritePlace(@PathVariable Long placeId, @PathVariable Long userId);
 
@@ -129,7 +128,6 @@ public interface PlaceRestService extends RestService {
             @ApiResponse(code = 429, message = "Too many requests"),
     })
     @DeleteMapping(value = "/place/{placeId}/favourite/{userId}",
-            consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PlaceCto> removeFavouritePlace(@PathVariable Long placeId, @PathVariable Long userId);
 

@@ -3,12 +3,14 @@ package com.example.backend.placehandling.logic.impl.usecase;
 import com.example.backend.general.logic.api.exception.EntityAlreadyExistsException;
 import com.example.backend.general.logic.api.exception.EntityDoesNotExistException;
 import com.example.backend.placehandling.dataaccess.api.dao.CategoryDao;
+import com.example.backend.placehandling.dataaccess.api.dao.OpeningHoursDao;
 import com.example.backend.placehandling.dataaccess.api.dao.PlaceDao;
 import com.example.backend.placehandling.dataaccess.api.dao.PlaceImageDao;
 import com.example.backend.placehandling.dataaccess.api.entity.*;
 import com.example.backend.placehandling.dataaccess.api.entity.PlaceEntity;
 import com.example.backend.placehandling.logic.api.mapper.OpeningHoursMapper;
 import com.example.backend.placehandling.logic.api.mapper.PlaceMapper;
+import com.example.backend.placehandling.logic.api.to.OpeningHoursTo;
 import com.example.backend.placehandling.logic.api.to.PlaceCto;
 import com.example.backend.placehandling.logic.api.to.PlaceTo;
 import com.example.backend.placehandling.logic.api.usecase.UcPlace;
@@ -48,6 +50,9 @@ public class UcPlaceImpl implements UcPlace {
     private OpeningHoursMapper openingHoursMapper;
 
     @Inject
+    private OpeningHoursDao openingHoursDao;
+
+    @Inject
     private CategoryDao categoryDao;
 
     @Inject
@@ -64,12 +69,32 @@ public class UcPlaceImpl implements UcPlace {
         CategoryEntity categoryEntity = getCategoryById(placeTo.getCategoryId());
         placeEntity.setCategory(categoryEntity);
 
-        updatePlaceImageEntity(placeEntity, placeTo.getImageUrl());
+//        updatePlaceImageEntity(placeEntity, placeTo.getImageUrl());
 
-        placeEntity.setOpeningHours(openingHoursMapper.toOpeningHoursEntity(placeTo.getOpeningHoursTo()));
 
-        PlaceEntity placeSaved = placeDao.save(placeEntity);
-        return toPlaceCto(placeSaved);
+        OpeningHoursEntity openingHoursEntity = new OpeningHoursEntity();
+        openingHoursEntity.setPlaceId(placeEntity.getId());
+        openingHoursEntity.setMondayOpeningHour(placeTo.getOpeningHoursTo().getMondayOpeningHour());
+        openingHoursEntity.setMondayClosingHour(placeTo.getOpeningHoursTo().getMondayClosingHour());
+        openingHoursEntity.setTuesdayOpeningHour(placeTo.getOpeningHoursTo().getTuesdayOpeningHour());
+        openingHoursEntity.setTuesdayClosingHour(placeTo.getOpeningHoursTo().getTuesdayClosingHour());
+        openingHoursEntity.setWednesdayOpeningHour(placeTo.getOpeningHoursTo().getWednesdayOpeningHour());
+        openingHoursEntity.setWednesdayClosingHour(placeTo.getOpeningHoursTo().getWednesdayClosingHour());
+        openingHoursEntity.setThursdayOpeningHour(placeTo.getOpeningHoursTo().getThursdayOpeningHour());
+        openingHoursEntity.setThursdayClosingHour(placeTo.getOpeningHoursTo().getThursdayClosingHour());
+        openingHoursEntity.setFridayOpeningHour(placeTo.getOpeningHoursTo().getFridayOpeningHour());
+        openingHoursEntity.setFridayClosingHour(placeTo.getOpeningHoursTo().getFridayClosingHour());
+        openingHoursEntity.setSaturdayOpeningHour(placeTo.getOpeningHoursTo().getSaturdayOpeningHour());
+        openingHoursEntity.setSaturdayClosingHour(placeTo.getOpeningHoursTo().getSaturdayClosingHour());
+        openingHoursEntity.setSundayOpeningHour(placeTo.getOpeningHoursTo().getSundayOpeningHour());
+        openingHoursEntity.setSundayClosingHour(placeTo.getOpeningHoursTo().getSundayClosingHour());
+        openingHoursEntity.setPlace(placeEntity);
+        OpeningHoursEntity savedOpening =  openingHoursDao.save(openingHoursEntity);
+
+        placeEntity.setOpeningHours(savedOpening);
+
+        placeDao.save(placeEntity);
+        return findPlace(placeEntity.getId());
     }
 
     @Override
@@ -103,7 +128,18 @@ public class UcPlaceImpl implements UcPlace {
         Objects.requireNonNull(placeId, ID_CANNOT_BE_NULL);
 
         PlaceEntity placeEntity = getPlaceById(placeId);
-        return toPlaceCto(placeEntity);
+
+
+
+        Optional<PlaceCto> placeCto = toPlaceCto(placeEntity);
+
+        if(placeCto.isPresent()){
+            placeCto.get().setCategoryName( placeEntity.getCategory().getName());
+//            placeCto.get().setImageUrl(placeEntity.getPlaceImages().get(0).getUrl());
+            placeCto.get().setOpeningHoursTo(toOpeningHoursTo(placeEntity.getOpeningHours()));
+        }
+
+        return placeCto;
     }
 
     @Override
@@ -122,7 +158,14 @@ public class UcPlaceImpl implements UcPlace {
         LOG.debug(GET_ALL_PLACES_LOG);
 
         return Optional.of(placeDao.findAll().stream()
-                .map(placeEntity -> placeMapper.toPlaceCto(placeEntity))
+                .map(placeEntity -> {
+                    try {
+                        return findPlace(placeEntity.getId()).get();
+                    } catch (EntityDoesNotExistException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                })
                 .collect(Collectors.toList()));
     }
 
@@ -131,26 +174,39 @@ public class UcPlaceImpl implements UcPlace {
         LOG.debug(SET_PLACE_FAVOURITE_LOG, placeId, userId);
 
         PlaceEntity placeEntity = getPlaceById(placeId);
-
+        UserEntity userEntity = getUserById(userId);
 
         if(isFavourite){
-            UserEntity userEntity = getUserById(userId);
-            List<UserEntity> users = new ArrayList<>(placeEntity.getUsers());
-            users.add(userEntity);
-            placeEntity.setUsers(users);
+            placeEntity.getUsers().add(userEntity);
         }else {
-            UserEntity userEntity = getUserById(userId);
-            List<UserEntity> users = new ArrayList<>(placeEntity.getUsers());
-            users.remove(userEntity);
-            placeEntity.setUsers(users);
+            placeEntity.getUsers().remove(userEntity);
         }
 
-        return toPlaceCto(placeEntity);
+        return findPlace(placeId);
     }
 
     private Optional<PlaceCto> toPlaceCto(PlaceEntity placeEntity){
         PlaceCto placeCto = placeMapper.toPlaceCto(placeEntity);
         return Optional.of(placeCto);
+    }
+
+    private OpeningHoursTo toOpeningHoursTo(OpeningHoursEntity openingHoursEntity){
+        OpeningHoursTo openingHoursTo = new OpeningHoursTo();
+        openingHoursTo.setMondayOpeningHour(openingHoursEntity.getMondayOpeningHour());
+        openingHoursTo.setMondayClosingHour(openingHoursEntity.getMondayClosingHour());
+        openingHoursTo.setTuesdayOpeningHour(openingHoursEntity.getTuesdayOpeningHour());
+        openingHoursTo.setTuesdayClosingHour(openingHoursEntity.getTuesdayClosingHour());
+        openingHoursTo.setWednesdayOpeningHour(openingHoursEntity.getWednesdayOpeningHour());
+        openingHoursTo.setWednesdayClosingHour(openingHoursEntity.getWednesdayClosingHour());
+        openingHoursTo.setThursdayOpeningHour(openingHoursEntity.getThursdayOpeningHour());
+        openingHoursTo.setThursdayClosingHour(openingHoursEntity.getThursdayClosingHour());
+        openingHoursTo.setFridayOpeningHour(openingHoursEntity.getFridayOpeningHour());
+        openingHoursTo.setFridayClosingHour(openingHoursEntity.getFridayClosingHour());
+        openingHoursTo.setSaturdayOpeningHour(openingHoursEntity.getSaturdayOpeningHour());
+        openingHoursTo.setSaturdayClosingHour(openingHoursEntity.getSaturdayClosingHour());
+        openingHoursTo.setSundayOpeningHour(openingHoursEntity.getSundayOpeningHour());
+        openingHoursTo.setSundayClosingHour(openingHoursEntity.getSundayClosingHour());
+        return openingHoursTo;
     }
 
     private PlaceEntity getPlaceById(Long placeId) throws EntityDoesNotExistException{
@@ -182,8 +238,11 @@ public class UcPlaceImpl implements UcPlace {
             //do nothing
         }else {
             //imageUrl doesn't exist
-            PlaceImageEntity placeImageEntity = new PlaceImageEntity(placeEntity, imageUrl);
-            List<PlaceImageEntity> placeImages = placeEntity.getPlaceImages();
+            PlaceImageEntity placeImageEntity = new PlaceImageEntity();
+            placeImageEntity.setUrl(imageUrl);
+            placeImageEntity.setPlace(placeEntity);
+            placeImageDao.save(placeImageEntity);
+            List<PlaceImageEntity> placeImages = new ArrayList<>(placeEntity.getPlaceImages());
             placeImages.add(placeImageEntity);
             placeEntity.setPlaceImages(placeImages);
         }
