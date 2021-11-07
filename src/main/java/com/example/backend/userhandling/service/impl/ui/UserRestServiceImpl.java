@@ -35,7 +35,6 @@ public class UserRestServiceImpl implements UserRestService {
   private static String USERS_NOT_EXIST = "Users do not exist.";
   private static String ACCOUNTS_NOT_EXIST = "Accounts do not exist.";
   private static String ROLES_NOT_EXIST = "Roles do not exist.";
-  private static final String BASE_URL = "user/v1/";
 
   @Inject
   private UserHandlingImpl userHandling;
@@ -91,7 +90,7 @@ public class UserRestServiceImpl implements UserRestService {
   public ResponseEntity<UserEto> createUser(UserTo userTo, HttpServletRequest request, Errors errors) {
     try {
       return ResponseEntity
-          .created(new URI(BASE_URL + "user"))
+          .created(new URI("user"))
           .body(userHandling.createUserAndAccountEntities(userTo, request, errors).orElseThrow(() ->
               new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)));
     } catch (AccountAlreadyExistsException | AddressException | URISyntaxException e) {
@@ -105,7 +104,7 @@ public class UserRestServiceImpl implements UserRestService {
   public ResponseEntity<UserEto> signUpUser(SignUpUserTo userTo, HttpServletRequest request, Errors errors) {
     try {
       return ResponseEntity
-          .created(new URI(BASE_URL + "user/singup"))
+          .created(new URI("user/singup"))
           .body(userHandling.createUserAndAccountEntitiesViaSignUp(userTo, request, errors).orElseThrow(() ->
               new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)));
     } catch (AccountAlreadyExistsException | AddressException | URISyntaxException e) {
@@ -215,7 +214,7 @@ public class UserRestServiceImpl implements UserRestService {
   public ResponseEntity<RoleEto> createRole(RoleTo roleTo) {
     try {
       return ResponseEntity
-          .created(new URI(BASE_URL + "/role"))
+          .created(new URI("/role"))
           .body(userHandling.createRole(roleTo).orElseThrow(() ->
               new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)));
     } catch (EntityAlreadyExistsException | URISyntaxException e) {

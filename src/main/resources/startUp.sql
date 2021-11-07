@@ -31,9 +31,33 @@ INSERT INTO public.permission(
 INSERT INTO public.permission(
     id, description, name)
     VALUES (11, 'User has possibility to get TASKS.', 'ADD_TASK');
-    INSERT INTO public.permission(
-    id, description, name)
-    VALUES (12, 'User has possibility to get TASKS.', 'GET_TASKS');
+INSERT INTO public.permission(
+id, description, name)
+VALUES (12, 'User has possibility to get PLACES.', 'GET_TASKS');
+INSERT INTO public.permission(
+id, description, name)
+VALUES (13, 'User has possibility to get TASKS.', 'EDIT_PLACE');
+INSERT INTO public.permission(
+id, description, name)
+VALUES (14, 'User has possibility to get TASKS.', 'ADD_PLACE');
+INSERT INTO public.permission(
+id, description, name)
+VALUES (15, 'User has possibility to get TASKS.', 'DELETE_PLACE');
+INSERT INTO public.permission(
+id, description, name)
+VALUES (16, 'User has possibility to get TASKS.', 'GET_PLACES');
+INSERT INTO public.permission(
+id, description, name)
+VALUES (17, 'User has possibility to get TASKS.', 'EDIT_CATEGORY');
+INSERT INTO public.permission(
+id, description, name)
+VALUES (18, 'User has possibility to get TASKS.', 'ADD_CATEGORY');
+INSERT INTO public.permission(
+id, description, name)
+VALUES (19, 'User has possibility to get TASKS.', 'DELETE_CATEGORY');
+INSERT INTO public.permission(
+id, description, name)
+VALUES (20, 'User has possibility to get TASKS.', 'GET_CATEGORIES');
 
 
 INSERT INTO public.role(
@@ -101,6 +125,30 @@ INSERT INTO public.role_permissions(
 INSERT INTO public.role_permissions(
 	permission_id, role_id)
 	VALUES (12, 100);
+INSERT INTO public.role_permissions(
+	permission_id, role_id)
+	VALUES (13, 100);
+INSERT INTO public.role_permissions(
+	permission_id, role_id)
+	VALUES (14, 100);
+INSERT INTO public.role_permissions(
+	permission_id, role_id)
+	VALUES (15, 100);
+INSERT INTO public.role_permissions(
+	permission_id, role_id)
+	VALUES (16, 100);
+INSERT INTO public.role_permissions(
+	permission_id, role_id)
+	VALUES (17, 100);
+INSERT INTO public.role_permissions(
+	permission_id, role_id)
+	VALUES (18, 100);
+INSERT INTO public.role_permissions(
+	permission_id, role_id)
+	VALUES (19, 100);
+INSERT INTO public.role_permissions(
+	permission_id, role_id)
+	VALUES (20, 100);
 
 INSERT INTO public.account(
     id, username, password, email, is_activated)

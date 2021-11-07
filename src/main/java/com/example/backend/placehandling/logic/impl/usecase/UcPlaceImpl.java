@@ -13,13 +13,13 @@ import com.example.backend.placehandling.logic.api.to.PlaceCto;
 import com.example.backend.placehandling.logic.api.to.PlaceTo;
 import com.example.backend.placehandling.logic.api.usecase.UcPlace;
 import com.example.backend.taskhandling.logic.impl.usecase.UcManageTaskImpl;
+import com.example.backend.userhandling.dataaccess.api.dao.UserDao;
+import com.example.backend.userhandling.dataaccess.api.entity.UserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class UcPlaceImpl implements UcPlace {
@@ -29,7 +29,9 @@ public class UcPlaceImpl implements UcPlace {
     private static final String CREATE_PLACE_LOG = "Create Place with name {} in database.";
     private static final String UPDATE_PLACE_LOG = "Update Place with id {} in database.";
     private static final String GET_PLACE_LOG = "Get Place with id {} from database.";
+    private static final String GET_FAVOURITE_PLACE_LOG = "Get Place for user with id {} from database.";
     private static final String GET_ALL_PLACES_LOG = "Get all Places from database.";
+    private static final String SET_PLACE_FAVOURITE_LOG = "Set place with id {} favourite for user with id {}.";
     private static final String DELETE_PLACE_LOG = "Delete Place with id {} in database.";
 
     @Inject
@@ -46,7 +48,9 @@ public class UcPlaceImpl implements UcPlace {
 
     @Inject
     private PlaceImageDao placeImageDao;
-    
+
+    @Inject
+    private UserDao userDao;
     
     
     @Override
@@ -99,12 +103,45 @@ public class UcPlaceImpl implements UcPlace {
     }
 
     @Override
+    public Optional<List<PlaceCto>> findFavouritePlaces(Long userId) {
+        LOG.debug(GET_FAVOURITE_PLACE_LOG, userId);
+        Objects.requireNonNull(userId, ID_CANNOT_BE_NULL);
+
+        return Optional.of(placeDao.findAll().stream()
+                .filter(placeEntity -> placeEntity.getUsers().stream().anyMatch(userEntity -> userEntity.getId().equals(userId)))
+                .map(placeEntity -> placeMapper.toPlaceCto(placeEntity))
+                .collect(Collectors.toList()));
+    }
+
+    @Override
     public Optional<List<PlaceCto>> findAllPlaces() {
         LOG.debug(GET_ALL_PLACES_LOG);
 
         return Optional.of(placeDao.findAll().stream()
                 .map(placeEntity -> placeMapper.toPlaceCto(placeEntity))
                 .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<PlaceCto> setPlaceFavourite(Long placeId, Long userId, Boolean isFavourite) throws EntityDoesNotExistException {
+        LOG.debug(SET_PLACE_FAVOURITE_LOG, placeId, userId);
+
+        PlaceEntity placeEntity = getPlaceById(placeId);
+
+
+        if(isFavourite){
+            UserEntity userEntity = getUserById(userId);
+            List<UserEntity> users = new ArrayList<>(placeEntity.getUsers());
+            users.add(userEntity);
+            placeEntity.setUsers(users);
+        }else {
+            UserEntity userEntity = getUserById(userId);
+            List<UserEntity> users = new ArrayList<>(placeEntity.getUsers());
+            users.remove(userEntity);
+            placeEntity.setUsers(users);
+        }
+
+        return toPlaceCto(placeEntity);
     }
 
     private Optional<PlaceCto> toPlaceCto(PlaceEntity placeEntity){
@@ -117,6 +154,13 @@ public class UcPlaceImpl implements UcPlace {
 
         return placeDao.findById(placeId).orElseThrow(() ->
                 new EntityDoesNotExistException("Place with id " + placeId + " does not exists"));
+    }
+
+    private UserEntity getUserById(Long userId) throws EntityDoesNotExistException{
+        Objects.requireNonNull(userId, ID_CANNOT_BE_NULL);
+
+        return userDao.findById(userId).orElseThrow(() ->
+                new EntityDoesNotExistException("User with id " + userId + " does not exists"));
     }
 
     private CategoryEntity getCategoryById(Long categoryId) throws EntityDoesNotExistException{

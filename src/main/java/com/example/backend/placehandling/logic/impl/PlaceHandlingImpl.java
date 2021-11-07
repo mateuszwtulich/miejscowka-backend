@@ -9,11 +9,15 @@ import com.example.backend.placehandling.logic.api.to.PlaceCto;
 import com.example.backend.placehandling.logic.api.to.PlaceTo;
 import com.example.backend.placehandling.logic.api.usecase.UcCategory;
 import com.example.backend.placehandling.logic.api.usecase.UcPlace;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@Transactional
 public class PlaceHandlingImpl implements PlaceHandling {
 
     @Inject
@@ -67,7 +71,17 @@ public class PlaceHandlingImpl implements PlaceHandling {
     }
 
     @Override
+    public Optional<List<PlaceCto>> findFavouritePlaces(Long userId) {
+        return ucPlace.findFavouritePlaces(userId);
+    }
+
+    @Override
     public Optional<List<PlaceCto>> findAllPlaces() {
         return ucPlace.findAllPlaces();
+    }
+
+    @Override
+    public Optional<PlaceCto> setPlaceFavourite(Long placeId, Long userId, Boolean isFavourite) throws EntityDoesNotExistException {
+        return ucPlace.setPlaceFavourite(placeId, userId, isFavourite);
     }
 }
