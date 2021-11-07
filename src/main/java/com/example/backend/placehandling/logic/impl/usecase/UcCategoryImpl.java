@@ -11,14 +11,19 @@ import com.example.backend.placehandling.logic.api.usecase.UcCategory;
 import com.example.backend.taskhandling.logic.impl.usecase.UcManageTaskImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.annotation.Validated;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+
+@Validated
+@Named
 public class UcCategoryImpl implements UcCategory {
 
     private static final Logger LOG = LoggerFactory.getLogger(UcManageTaskImpl.class);

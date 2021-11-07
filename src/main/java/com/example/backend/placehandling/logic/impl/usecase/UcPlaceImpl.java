@@ -17,11 +17,15 @@ import com.example.backend.userhandling.dataaccess.api.dao.UserDao;
 import com.example.backend.userhandling.dataaccess.api.entity.UserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.annotation.Validated;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Validated
+@Named
 public class UcPlaceImpl implements UcPlace {
 
     private static final Logger LOG = LoggerFactory.getLogger(UcManageTaskImpl.class);
