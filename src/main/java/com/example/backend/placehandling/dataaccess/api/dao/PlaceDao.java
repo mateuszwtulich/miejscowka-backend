@@ -11,7 +11,6 @@ import java.util.Optional;
 public interface PlaceDao extends JpaRepository<PlaceEntity, Long> {
 
     List<PlaceEntity> findAllByCategory_Id(Long categoryId);
-
     Optional<PlaceEntity> findById(Long id);
     Optional<PlaceEntity> findByName(String name);
 

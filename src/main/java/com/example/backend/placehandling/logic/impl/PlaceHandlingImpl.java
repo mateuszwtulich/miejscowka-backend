@@ -81,6 +81,11 @@ public class PlaceHandlingImpl implements PlaceHandling {
     }
 
     @Override
+    public Optional<List<PlaceCto>> findAllPlaces(Long userId) {
+        return ucPlace.findAllPlaces(userId);
+    }
+
+    @Override
     public Optional<PlaceCto> setPlaceFavourite(Long placeId, Long userId, Boolean isFavourite) throws EntityDoesNotExistException {
         return ucPlace.setPlaceFavourite(placeId, userId, isFavourite);
     }

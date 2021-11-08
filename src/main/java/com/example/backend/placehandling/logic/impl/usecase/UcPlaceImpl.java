@@ -37,6 +37,7 @@ public class UcPlaceImpl implements UcPlace {
     private static final String GET_PLACE_LOG = "Get Place with id {} from database.";
     private static final String GET_FAVOURITE_PLACE_LOG = "Get Place for user with id {} from database.";
     private static final String GET_ALL_PLACES_LOG = "Get all Places from database.";
+    private static final String GET_ALL_PLACES_WITH_USER_INFO_LOG = "Get all Places with user info from database.";
     private static final String SET_PLACE_FAVOURITE_LOG = "Set place with id {} favourite for user with id {}.";
     private static final String DELETE_PLACE_LOG = "Delete Place with id {} in database.";
 
@@ -71,7 +72,101 @@ public class UcPlaceImpl implements UcPlace {
 
         updatePlaceImageEntity(placeEntity, placeTo.getImageUrl());
 
+        placeEntity.setOpeningHours(createOpeningHoursEntity(placeTo, placeEntity));
 
+        placeDao.save(placeEntity);
+        return Optional.of(toPlaceCto(placeEntity));
+    }
+
+    @Override
+    public Optional<PlaceCto> updatePlace(PlaceTo placeTo, Long placeId) throws EntityDoesNotExistException {
+        LOG.debug(UPDATE_PLACE_LOG, placeId);
+        PlaceEntity placeEntity = getPlaceById(placeId);
+        placeEntity.setName(placeTo.getName());
+        placeEntity.setDescription(placeTo.getDescription());
+        placeEntity.setCapacity(placeTo.getCapacity());
+        placeEntity.setStreet(placeTo.getStreet());
+        placeEntity.setBuildingNumber(placeTo.getBuildingNumber());
+        placeEntity.setApartmentNumber(placeTo.getApartmentNumber());
+
+
+        CategoryEntity categoryEntity = getCategoryById(placeTo.getCategoryId());
+        placeEntity.setCategory(categoryEntity);
+
+        updatePlaceImageEntity(placeEntity, placeTo.getImageUrl());
+
+        OpeningHoursEntity openingHoursEntity = openingHoursMapper.toOpeningHoursEntity(placeTo.getOpeningHoursTo());
+        if(!placeEntity.getOpeningHours().equals(openingHoursEntity)){
+            placeEntity.setOpeningHours(createOpeningHoursEntity(placeTo, placeEntity));
+        }
+
+        return Optional.of(toPlaceCto(placeEntity));
+    }
+
+    @Override
+    public void deletePlace(Long placeId) throws EntityDoesNotExistException {
+        LOG.debug(DELETE_PLACE_LOG, placeId);
+
+        PlaceEntity placeEntity = getPlaceById(placeId);
+        placeDao.deleteById(placeEntity.getId());
+    }
+
+    @Override
+    public Optional<PlaceCto> findPlace(Long placeId) throws EntityDoesNotExistException {
+        LOG.debug(GET_PLACE_LOG, placeId);
+        Objects.requireNonNull(placeId, ID_CANNOT_BE_NULL);
+
+        PlaceEntity placeEntity = getPlaceById(placeId);
+
+        return Optional.of(toPlaceCto(placeEntity));
+    }
+
+    @Override
+    public Optional<List<PlaceCto>> findFavouritePlaces(Long userId) {
+        LOG.debug(GET_FAVOURITE_PLACE_LOG, userId);
+        Objects.requireNonNull(userId, ID_CANNOT_BE_NULL);
+
+        return Optional.of(placeDao.findAll().stream()
+                .filter(placeEntity -> placeEntity.getUsers().stream().anyMatch(userEntity -> userEntity.getId().equals(userId)))
+                .map(placeEntity -> toPlaceCto(placeEntity, userId))
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<List<PlaceCto>> findAllPlaces() {
+        LOG.debug(GET_ALL_PLACES_LOG);
+
+        return Optional.of(placeDao.findAll().stream()
+                .map(placeEntity -> toPlaceCto(placeEntity))
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<List<PlaceCto>> findAllPlaces(Long userId) {
+        LOG.debug(GET_ALL_PLACES_WITH_USER_INFO_LOG);
+
+        return Optional.of(placeDao.findAll().stream()
+                .map(placeEntity -> toPlaceCto(placeEntity, userId))
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<PlaceCto> setPlaceFavourite(Long placeId, Long userId, Boolean isFavourite) throws EntityDoesNotExistException {
+        LOG.debug(SET_PLACE_FAVOURITE_LOG, placeId, userId);
+
+        PlaceEntity placeEntity = getPlaceById(placeId);
+        UserEntity userEntity = getUserById(userId);
+
+        if(isFavourite){
+            placeEntity.getUsers().add(userEntity);
+        }else {
+            placeEntity.getUsers().remove(userEntity);
+        }
+
+        return Optional.of(toPlaceCto(placeEntity, userId));
+    }
+
+    private OpeningHoursEntity createOpeningHoursEntity(PlaceTo placeTo, PlaceEntity placeEntity){
         OpeningHoursEntity openingHoursEntity = new OpeningHoursEntity();
         openingHoursEntity.setPlaceId(placeEntity.getId());
         openingHoursEntity.setMondayOpeningHour(placeTo.getOpeningHoursTo().getMondayOpeningHour());
@@ -91,104 +186,28 @@ public class UcPlaceImpl implements UcPlace {
         openingHoursEntity.setPlace(placeEntity);
         OpeningHoursEntity savedOpening =  openingHoursDao.save(openingHoursEntity);
 
-        placeEntity.setOpeningHours(savedOpening);
-
-        placeDao.save(placeEntity);
-        return findPlace(placeEntity.getId());
+        return savedOpening;
     }
 
-    @Override
-    public Optional<PlaceCto> updatePlace(PlaceTo placeTo, Long placeId) throws EntityDoesNotExistException {
-        LOG.debug(UPDATE_PLACE_LOG, placeId);
-        PlaceEntity placeEntity = getPlaceById(placeId);
-        placeEntity.setName(placeTo.getName());
-        placeEntity.setDescription(placeTo.getDescription());
-
-        CategoryEntity categoryEntity = getCategoryById(placeTo.getCategoryId());
-        placeEntity.setCategory(categoryEntity);
-
-        updatePlaceImageEntity(placeEntity, placeTo.getImageUrl());
-
-        placeEntity.setOpeningHours(openingHoursMapper.toOpeningHoursEntity(placeTo.getOpeningHoursTo()));
-
-        return toPlaceCto(placeEntity);
+    private PlaceCto toPlaceCto(PlaceEntity placeEntity){
+        return toPlaceCto(placeEntity, null);
     }
 
-    @Override
-    public void deletePlace(Long placeId) throws EntityDoesNotExistException {
-        LOG.debug(DELETE_PLACE_LOG, placeId);
+    private PlaceCto toPlaceCto(PlaceEntity placeEntity, Long userId){
+        PlaceCto placeCto = placeMapper.toPlaceCto(placeEntity);
 
-        PlaceEntity placeEntity = getPlaceById(placeId);
-        placeDao.deleteById(placeEntity.getId());
-    }
+        placeCto.setCategoryName( placeEntity.getCategory().getName());
+        if(!placeEntity.getPlaceImages().isEmpty())
+            placeCto.setImageUrl(placeEntity.getPlaceImages().get(0).getUrl());
+        placeCto.setOpeningHoursTo(toOpeningHoursTo(placeEntity.getOpeningHours()));
 
-    @Override
-    public Optional<PlaceCto> findPlace(Long placeId) throws EntityDoesNotExistException {
-        LOG.debug(GET_PLACE_LOG, placeId);
-        Objects.requireNonNull(placeId, ID_CANNOT_BE_NULL);
-
-        PlaceEntity placeEntity = getPlaceById(placeId);
-
-        Optional<PlaceCto> placeCto = toPlaceCto(placeEntity);
-
-        if(placeCto.isPresent()){
-            placeCto.get().setCategoryName( placeEntity.getCategory().getName());
-            if(!placeEntity.getPlaceImages().isEmpty())
-                placeCto.get().setImageUrl(placeEntity.getPlaceImages().get(0).getUrl());
-            placeCto.get().setOpeningHoursTo(toOpeningHoursTo(placeEntity.getOpeningHours()));
+        if(userId != null && placeEntity.getUsers().stream().anyMatch(userEntity -> userEntity.getId().equals(userId))){
+            placeCto.setFavourite(true);
+        }else {
+            placeCto.setFavourite(false);
         }
 
         return placeCto;
-    }
-
-    @Override
-    public Optional<List<PlaceCto>> findFavouritePlaces(Long userId) {
-        LOG.debug(GET_FAVOURITE_PLACE_LOG, userId);
-        Objects.requireNonNull(userId, ID_CANNOT_BE_NULL);
-
-        return Optional.of(placeDao.findAll().stream()
-                .filter(placeEntity -> placeEntity.getUsers().stream().anyMatch(userEntity -> userEntity.getId().equals(userId)))
-                .map(placeEntity -> placeMapper.toPlaceCto(placeEntity))
-                .collect(Collectors.toList()));
-    }
-
-    @Override
-    public Optional<List<PlaceCto>> findAllPlaces() {
-        LOG.debug(GET_ALL_PLACES_LOG);
-
-        return Optional.of(placeDao.findAll().stream()
-                .map(placeEntity -> {
-                    try {
-                        return findPlace(placeEntity.getId()).get();
-                    } catch (EntityDoesNotExistException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                })
-                .collect(Collectors.toList()));
-    }
-
-    @Override
-    public Optional<PlaceCto> setPlaceFavourite(Long placeId, Long userId, Boolean isFavourite) throws EntityDoesNotExistException {
-        LOG.debug(SET_PLACE_FAVOURITE_LOG, placeId, userId);
-
-        PlaceEntity placeEntity = getPlaceById(placeId);
-        UserEntity userEntity = getUserById(userId);
-
-//        Set<UserEntity> users = new HashSet<>(placeEntity.getUsers());
-        if(isFavourite){
-            placeEntity.getUsers().add(userEntity);
-        }else {
-            placeEntity.getUsers().remove(userEntity);
-        }
-//        placeEntity.setUsers(users);
-
-        return findPlace(placeId);
-    }
-
-    private Optional<PlaceCto> toPlaceCto(PlaceEntity placeEntity){
-        PlaceCto placeCto = placeMapper.toPlaceCto(placeEntity);
-        return Optional.of(placeCto);
     }
 
     private OpeningHoursTo toOpeningHoursTo(OpeningHoursEntity openingHoursEntity){

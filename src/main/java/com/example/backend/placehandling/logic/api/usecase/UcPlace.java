@@ -16,6 +16,7 @@ public interface UcPlace {
     Optional<PlaceCto> findPlace(Long placeId) throws EntityDoesNotExistException;
     Optional<List<PlaceCto>> findFavouritePlaces(Long userId);
     Optional<List<PlaceCto>> findAllPlaces();
+    Optional<List<PlaceCto>> findAllPlaces(Long userId);
     Optional<PlaceCto> setPlaceFavourite(Long placeId, Long userId, Boolean isFavourite) throws EntityDoesNotExistException;
 
 }

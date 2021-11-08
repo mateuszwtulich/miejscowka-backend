@@ -45,6 +45,16 @@ public class PlaceRestServiceImpl implements PlaceRestService {
     }
 
     @Override
+    public List<PlaceCto> getAllPlacesWithUserInfo(Long userId) {
+        return placeHandling.findAllPlaces(userId).map( placeCtos -> {
+            if(placeCtos.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NO_CONTENT, PLACE_NOT_EXIST);
+            }
+            return placeCtos;
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
+    }
+
+    @Override
     @PermissionRestrict(permissions = {ApplicationPermissions.GET_PLACES})
     public ResponseEntity<PlaceCto> getPlace(Long id) {
         try {

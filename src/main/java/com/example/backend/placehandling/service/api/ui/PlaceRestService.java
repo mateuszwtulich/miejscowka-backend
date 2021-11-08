@@ -34,6 +34,16 @@ public interface PlaceRestService extends RestService {
     @GetMapping(value = "/place", produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
     List<PlaceCto> getAllPlaces();
 
+    @ApiOperation(value = "Get all places with user information.", tags = {"place"}, response = PlaceCto.class, responseContainer = "List")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful request"),
+            @ApiResponse(code = 204, message = "No content found"),
+            @ApiResponse(code = 403, message = "You dont have permissions for this action!"),
+            @ApiResponse(code = 429, message = "Too many requests"),
+    })
+    @GetMapping(value = "/place/user/{userId}", produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+    List<PlaceCto> getAllPlacesWithUserInfo(@PathVariable Long userId);
+
     @ApiOperation(value = "Get place by id.",
             tags = {"place"},
             response = PlaceCto.class)
