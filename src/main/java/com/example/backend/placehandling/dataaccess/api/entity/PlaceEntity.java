@@ -6,9 +6,7 @@ import com.example.backend.userhandling.dataaccess.api.entity.UserEntity;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "PLACE")
@@ -44,7 +42,7 @@ public class PlaceEntity extends AbstractApplicationPersistenceEntity {
                     name = "PLACE_ID", nullable = false, updatable = false
             )}
     )
-    private List<UserEntity> users = new ArrayList<>();
+    private Set<UserEntity> users = new HashSet<>();
 
 
     @OneToOne(mappedBy = "place", cascade = CascadeType.ALL)
@@ -66,7 +64,7 @@ public class PlaceEntity extends AbstractApplicationPersistenceEntity {
 
     }
 
-    public PlaceEntity(String name, String capacity, String description, String street, String buildingNumber, String apartmentNumber, List<UserEntity> users, OpeningHoursEntity openingHours, List<PlaceImageEntity> placeImages, CategoryEntity category, List<OccupancyEntity> occupancies) {
+    public PlaceEntity(String name, String capacity, String description, String street, String buildingNumber, String apartmentNumber, Set<UserEntity> users, OpeningHoursEntity openingHours, List<PlaceImageEntity> placeImages, CategoryEntity category, List<OccupancyEntity> occupancies) {
         this.name = name;
         this.capacity = capacity;
         this.description = description;
@@ -128,11 +126,11 @@ public class PlaceEntity extends AbstractApplicationPersistenceEntity {
         this.apartmentNumber = apartmentNumber;
     }
 
-    public List<UserEntity> getUsers() {
+    public Set<UserEntity> getUsers() {
         return users;
     }
 
-    public void setUsers(List<UserEntity> users) {
+    public void setUsers(Set<UserEntity> users) {
         this.users = users;
     }
 

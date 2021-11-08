@@ -176,11 +176,13 @@ public class UcPlaceImpl implements UcPlace {
         PlaceEntity placeEntity = getPlaceById(placeId);
         UserEntity userEntity = getUserById(userId);
 
+//        Set<UserEntity> users = new HashSet<>(placeEntity.getUsers());
         if(isFavourite){
             placeEntity.getUsers().add(userEntity);
         }else {
             placeEntity.getUsers().remove(userEntity);
         }
+//        placeEntity.setUsers(users);
 
         return findPlace(placeId);
     }
