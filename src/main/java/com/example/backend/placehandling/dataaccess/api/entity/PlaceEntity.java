@@ -49,8 +49,8 @@ public class PlaceEntity extends AbstractApplicationPersistenceEntity {
     @PrimaryKeyJoinColumn
     private OpeningHoursEntity openingHours;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "place", cascade = CascadeType.MERGE, orphanRemoval = true)
-    private List<PlaceImageEntity> placeImages;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlaceImageEntity> placeImages = new ArrayList<>();
 
     @NotNull
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -58,7 +58,7 @@ public class PlaceEntity extends AbstractApplicationPersistenceEntity {
     private CategoryEntity category;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "place", cascade = CascadeType.MERGE, orphanRemoval = true)
-    private List<OccupancyEntity> occupancies;
+    private List<OccupancyEntity> occupancies = new ArrayList<>();
 
     public PlaceEntity() {
 
@@ -76,6 +76,16 @@ public class PlaceEntity extends AbstractApplicationPersistenceEntity {
         this.placeImages = placeImages;
         this.category = category;
         this.occupancies = occupancies;
+    }
+
+    public void addPlaceImage(PlaceImageEntity placeImageEntity){
+        placeImages.add(placeImageEntity);
+        placeImageEntity.setPlace(this);
+    }
+
+    public void removePlaceImage(PlaceImageEntity placeImageEntity){
+        placeImages.remove(placeImageEntity);
+        placeImageEntity.setPlace(null);
     }
 
     public String getName() {

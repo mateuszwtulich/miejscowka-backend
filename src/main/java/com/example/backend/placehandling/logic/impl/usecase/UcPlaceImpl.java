@@ -69,7 +69,7 @@ public class UcPlaceImpl implements UcPlace {
         CategoryEntity categoryEntity = getCategoryById(placeTo.getCategoryId());
         placeEntity.setCategory(categoryEntity);
 
-//        updatePlaceImageEntity(placeEntity, placeTo.getImageUrl());
+        updatePlaceImageEntity(placeEntity, placeTo.getImageUrl());
 
 
         OpeningHoursEntity openingHoursEntity = new OpeningHoursEntity();
@@ -129,13 +129,12 @@ public class UcPlaceImpl implements UcPlace {
 
         PlaceEntity placeEntity = getPlaceById(placeId);
 
-
-
         Optional<PlaceCto> placeCto = toPlaceCto(placeEntity);
 
         if(placeCto.isPresent()){
             placeCto.get().setCategoryName( placeEntity.getCategory().getName());
-//            placeCto.get().setImageUrl(placeEntity.getPlaceImages().get(0).getUrl());
+            if(!placeEntity.getPlaceImages().isEmpty())
+                placeCto.get().setImageUrl(placeEntity.getPlaceImages().get(0).getUrl());
             placeCto.get().setOpeningHoursTo(toOpeningHoursTo(placeEntity.getOpeningHours()));
         }
 
@@ -242,11 +241,10 @@ public class UcPlaceImpl implements UcPlace {
             //imageUrl doesn't exist
             PlaceImageEntity placeImageEntity = new PlaceImageEntity();
             placeImageEntity.setUrl(imageUrl);
-            placeImageEntity.setPlace(placeEntity);
-            placeImageDao.save(placeImageEntity);
-            List<PlaceImageEntity> placeImages = new ArrayList<>(placeEntity.getPlaceImages());
-            placeImages.add(placeImageEntity);
-            placeEntity.setPlaceImages(placeImages);
+//            placeImageEntity.setPlace(placeEntity);
+//            System.out.println(placeEntity.getPlaceImages().size());
+//            placeImageDao.save(placeImageEntity);
+            placeEntity.addPlaceImage(placeImageEntity);
         }
 
     }

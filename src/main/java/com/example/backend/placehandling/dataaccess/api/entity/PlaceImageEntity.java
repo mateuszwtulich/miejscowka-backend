@@ -21,7 +21,7 @@ public class PlaceImageEntity extends AbstractApplicationPersistenceEntity {
     }
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "PLACE_ID", nullable = false, referencedColumnName = "id")
     private PlaceEntity place;
 
