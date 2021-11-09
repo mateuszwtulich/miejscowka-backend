@@ -11,7 +11,7 @@ public class PlaceTo {
     private String name;
 
     @NotNull
-    private String capacity;
+    private Integer capacity;
 
     private String description;
 
@@ -31,7 +31,7 @@ public class PlaceTo {
     public PlaceTo() {
     }
 
-    public PlaceTo(String name, String capacity, String description, String street, String buildingNumber, String apartmentNumber, Long categoryId, String imageUrl, OpeningHoursTo openingHoursTo) {
+    public PlaceTo(String name, Integer capacity, String description, String street, String buildingNumber, String apartmentNumber, Long categoryId, String imageUrl, OpeningHoursTo openingHoursTo) {
         this.name = name;
         this.capacity = capacity;
         this.description = description;
@@ -51,11 +51,11 @@ public class PlaceTo {
         this.name = name;
     }
 
-    public String getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 

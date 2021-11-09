@@ -23,7 +23,8 @@ public class PlaceHandlingImpl implements PlaceHandling {
     @Inject
     private UcCategory ucCategory;
 
-    @Inject UcPlace ucPlace;
+    @Inject
+    private UcPlace ucPlace;
 
     @Override
     public Optional<CategoryEto> createCategory(CategoryTo categoryTo) throws EntityAlreadyExistsException {

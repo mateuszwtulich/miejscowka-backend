@@ -18,7 +18,7 @@ public class PlaceEntity extends AbstractApplicationPersistenceEntity {
 
     @NotNull
     @Column(name = "CAPACITY", nullable = false)
-    private String capacity;
+    private Integer capacity;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -64,7 +64,7 @@ public class PlaceEntity extends AbstractApplicationPersistenceEntity {
 
     }
 
-    public PlaceEntity(String name, String capacity, String description, String street, String buildingNumber, String apartmentNumber, Set<UserEntity> users, OpeningHoursEntity openingHours, List<PlaceImageEntity> placeImages, CategoryEntity category, List<OccupancyEntity> occupancies) {
+    public PlaceEntity(String name, Integer capacity, String description, String street, String buildingNumber, String apartmentNumber, Set<UserEntity> users, OpeningHoursEntity openingHours, List<PlaceImageEntity> placeImages, CategoryEntity category, List<OccupancyEntity> occupancies) {
         this.name = name;
         this.capacity = capacity;
         this.description = description;
@@ -96,11 +96,11 @@ public class PlaceEntity extends AbstractApplicationPersistenceEntity {
         this.name = name;
     }
 
-    public String getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 

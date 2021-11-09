@@ -16,8 +16,8 @@ public class OccupancyEntity {
     private OccupancyId id;
 
     @NotNull
-    @JoinColumn(name = "PLACE", nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinColumn(name = "PLACE_ID", nullable = false, referencedColumnName = "id")
     @MapsId("placeId")
     private PlaceEntity place;
 

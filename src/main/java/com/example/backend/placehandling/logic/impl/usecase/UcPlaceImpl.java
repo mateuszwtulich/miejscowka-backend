@@ -2,6 +2,9 @@ package com.example.backend.placehandling.logic.impl.usecase;
 
 import com.example.backend.general.logic.api.exception.EntityAlreadyExistsException;
 import com.example.backend.general.logic.api.exception.EntityDoesNotExistException;
+import com.example.backend.occupancyhandling.dataaccess.api.dao.OccupancyDao;
+import com.example.backend.occupancyhandling.dataaccess.api.entity.OccupancyEntity;
+import com.example.backend.occupancyhandling.logic.api.to.OccupancyTo;
 import com.example.backend.placehandling.dataaccess.api.dao.CategoryDao;
 import com.example.backend.placehandling.dataaccess.api.dao.OpeningHoursDao;
 import com.example.backend.placehandling.dataaccess.api.dao.PlaceDao;
@@ -61,6 +64,9 @@ public class UcPlaceImpl implements UcPlace {
 
     @Inject
     private UserDao userDao;
+
+    @Inject
+    private OccupancyDao occupancyDao;
     
     
     @Override
@@ -206,6 +212,16 @@ public class UcPlaceImpl implements UcPlace {
         }else {
             placeCto.setFavourite(false);
         }
+
+        //FIXME When it is uncommented there is a stack overflow
+//        Optional<OccupancyEntity> occupancyEntityOpt = occupancyDao.findAll().stream().filter(occupancyEntity -> occupancyEntity.getId().getPlaceId().equals(placeEntity.getId())).findFirst();
+//
+//        if(occupancyEntityOpt.isPresent()){
+//            OccupancyTo occupancyTo = new OccupancyTo();
+//            occupancyTo.setNumber_of_people(occupancyEntityOpt.get().getNumber_of_people());
+//            occupancyTo.setPercentage_occupancy(occupancyEntityOpt.get().getPercentage_occupancy());
+//            placeCto.setLastOccupancyTo(occupancyTo);
+//        }
 
         return placeCto;
     }
