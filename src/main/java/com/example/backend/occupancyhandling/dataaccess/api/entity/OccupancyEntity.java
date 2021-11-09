@@ -1,6 +1,7 @@
 package com.example.backend.occupancyhandling.dataaccess.api.entity;
 
 import com.example.backend.placehandling.dataaccess.api.entity.PlaceEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -9,20 +10,15 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "OCCUPANCY")
-@IdClass(OccupancyId.class)
 public class OccupancyEntity {
 
-    @Id
-    @NotNull
-    private LocalDateTime timeId;
-
-    @Id
-    @NotNull
-    private Long placeId;
+    @EmbeddedId
+    private OccupancyId id;
 
     @NotNull
     @JoinColumn(name = "PLACE", nullable = false)
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @MapsId("placeId")
     private PlaceEntity place;
 
     @NotNull
@@ -32,20 +28,15 @@ public class OccupancyEntity {
     @Column(name = "PERCENTAGE")
     private int percentage_occupancy;
 
-    public LocalDateTime getTime() {
-        return timeId;
+    public OccupancyEntity() {
     }
 
-    public void setTime(LocalDateTime time) {
-        this.timeId = time;
+    public OccupancyId getId() {
+        return id;
     }
 
-    public Long getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(Long placeId) {
-        this.placeId = placeId;
+    public void setId(OccupancyId id) {
+        this.id = id;
     }
 
     public PlaceEntity getPlace() {
@@ -76,13 +67,15 @@ public class OccupancyEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OccupancyEntity occupancy = (OccupancyEntity) o;
-        return number_of_people == occupancy.number_of_people && percentage_occupancy == occupancy.percentage_occupancy && timeId.equals(occupancy.timeId) && placeId.equals(occupancy.placeId) && place.equals(occupancy.place);
+        OccupancyEntity that = (OccupancyEntity) o;
+        return number_of_people == that.number_of_people &&
+                percentage_occupancy == that.percentage_occupancy &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(place, that.place);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(timeId, placeId, place, number_of_people, percentage_occupancy);
+        return Objects.hash(id, place, number_of_people, percentage_occupancy);
     }
-
 }
