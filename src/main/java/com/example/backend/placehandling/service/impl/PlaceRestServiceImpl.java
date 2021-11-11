@@ -34,7 +34,6 @@ public class PlaceRestServiceImpl implements PlaceRestService {
     private PlaceHandlingImpl placeHandling;
 
     @Override
-    @PermissionRestrict(permissions = {ApplicationPermissions.GET_PLACES})
     public List<PlaceCto> getAllPlaces() {
         return placeHandling.findAllPlaces().map( placeCtos -> {
             if(placeCtos.isEmpty()) {
@@ -55,7 +54,6 @@ public class PlaceRestServiceImpl implements PlaceRestService {
     }
 
     @Override
-    @PermissionRestrict(permissions = {ApplicationPermissions.GET_PLACES})
     public ResponseEntity<PlaceCto> getPlace(Long id) {
         try {
             return ResponseEntity
@@ -68,7 +66,6 @@ public class PlaceRestServiceImpl implements PlaceRestService {
     }
 
     @Override
-    @PermissionRestrict(permissions = {ApplicationPermissions.GET_CATEGORIES})
     public List<CategoryEto> getAllCategories() {
         return placeHandling.findAllCategories().map( categoryEtos -> {
             if(categoryEtos.isEmpty()) {
@@ -79,7 +76,6 @@ public class PlaceRestServiceImpl implements PlaceRestService {
     }
 
     @Override
-    @PermissionRestrict(permissions = {ApplicationPermissions.GET_PLACES})
     public List<PlaceCto> getAllFavouritePlaces(Long userId) {
         return placeHandling.findFavouritePlaces(userId).map( placeCtos -> {
             if(placeCtos.isEmpty()) {
@@ -118,7 +114,6 @@ public class PlaceRestServiceImpl implements PlaceRestService {
     }
 
     @Override
-    @PermissionRestrict(permissions = {ApplicationPermissions.EDIT_PLACE})
     public ResponseEntity<PlaceCto> addFavouritePlace(Long placeId, Long userId) {
         try {
             return ResponseEntity
@@ -131,7 +126,6 @@ public class PlaceRestServiceImpl implements PlaceRestService {
     }
 
     @Override
-    @PermissionRestrict(permissions = {ApplicationPermissions.EDIT_PLACE})
     public ResponseEntity<PlaceCto> removeFavouritePlace(Long placeId, Long userId) {
         try {
             return ResponseEntity
