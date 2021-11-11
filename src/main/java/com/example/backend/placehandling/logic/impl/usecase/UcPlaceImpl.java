@@ -213,15 +213,14 @@ public class UcPlaceImpl implements UcPlace {
             placeCto.setFavourite(false);
         }
 
-        //FIXME When it is uncommented there is a stack overflow
-//        Optional<OccupancyEntity> occupancyEntityOpt = occupancyDao.findAll().stream().filter(occupancyEntity -> occupancyEntity.getId().getPlaceId().equals(placeEntity.getId())).findFirst();
-//
-//        if(occupancyEntityOpt.isPresent()){
-//            OccupancyTo occupancyTo = new OccupancyTo();
-//            occupancyTo.setNumber_of_people(occupancyEntityOpt.get().getNumber_of_people());
-//            occupancyTo.setPercentage_occupancy(occupancyEntityOpt.get().getPercentage_occupancy());
-//            placeCto.setLastOccupancyTo(occupancyTo);
-//        }
+        Optional<OccupancyEntity> occupancyEntityOpt = occupancyDao.findByIdPlaceId(placeEntity.getId());
+
+        if(occupancyEntityOpt.isPresent()){
+            OccupancyTo occupancyTo = new OccupancyTo();
+            occupancyTo.setNumber_of_people(occupancyEntityOpt.get().getNumber_of_people());
+            occupancyTo.setPercentage_occupancy(occupancyEntityOpt.get().getPercentage_occupancy());
+            placeCto.setLastOccupancyTo(occupancyTo);
+        }
 
         return placeCto;
     }
@@ -276,9 +275,6 @@ public class UcPlaceImpl implements UcPlace {
             //imageUrl doesn't exist
             PlaceImageEntity placeImageEntity = new PlaceImageEntity();
             placeImageEntity.setUrl(imageUrl);
-//            placeImageEntity.setPlace(placeEntity);
-//            System.out.println(placeEntity.getPlaceImages().size());
-//            placeImageDao.save(placeImageEntity);
             placeEntity.addPlaceImage(placeImageEntity);
         }
 

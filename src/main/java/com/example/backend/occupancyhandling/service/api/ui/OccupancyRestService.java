@@ -7,6 +7,7 @@ import com.example.backend.placehandling.logic.api.to.PlaceTo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,6 +32,6 @@ public interface OccupancyRestService extends RestService {
     })
     @PutMapping(value = "/place/{placeId}/occupancy",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<OccupancyTo> updateOccupancy(@PathVariable Long placeId, @RequestParam Integer numberOfPeople, @RequestParam LocalDateTime time);
+    ResponseEntity<OccupancyTo> updateOccupancy(@PathVariable Long placeId, @RequestParam Integer numberOfPeople, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime time);
 
 }

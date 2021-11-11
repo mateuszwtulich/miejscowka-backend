@@ -19,6 +19,8 @@ import javax.inject.Named;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Validated
@@ -56,9 +58,9 @@ public class UcOccupancyImpl implements UcOccupancy {
 
             occupancyEntity = new OccupancyEntity();
             occupancyEntity.setId(occupancyId);
+            occupancyEntity.setPlace(placeEntity);
             occupancyEntity.setNumber_of_people(numberOfPeople);
             occupancyEntity.setPercentage_occupancy(calculatePercentageOccupancy(numberOfPeople, placeEntity.getCapacity()));
-
             occupancyDao.save(occupancyEntity);
         }
 

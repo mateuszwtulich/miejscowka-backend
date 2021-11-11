@@ -241,6 +241,6 @@ public class OpeningHoursEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), placeId, mondayOpeningHour, mondayClosingHour, tuesdayOpeningHour, tuesdayClosingHour, wednesdayOpeningHour, wednesdayClosingHour, thursdayOpeningHour, thursdayClosingHour, fridayOpeningHour, fridayClosingHour, saturdayOpeningHour, saturdayClosingHour, sundayOpeningHour, sundayClosingHour, place);
+        return Objects.hash(super.hashCode(), placeId, mondayOpeningHour, mondayClosingHour, tuesdayOpeningHour, tuesdayClosingHour, wednesdayOpeningHour, wednesdayClosingHour, thursdayOpeningHour, thursdayClosingHour, fridayOpeningHour, fridayClosingHour, saturdayOpeningHour, saturdayClosingHour, sundayOpeningHour, sundayClosingHour);
     }
 }
