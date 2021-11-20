@@ -86,7 +86,7 @@ public class PlaceRestServiceImpl implements PlaceRestService {
     }
 
     @Override
-    @PermissionRestrict(permissions = {ApplicationPermissions.ADD_PLACE})
+//    @PermissionRestrict(permissions = {ApplicationPermissions.ADD_PLACE})
     public ResponseEntity<PlaceCto> createPlace(PlaceTo placeTo) {
         try {
             return ResponseEntity
@@ -138,7 +138,7 @@ public class PlaceRestServiceImpl implements PlaceRestService {
     }
 
     @Override
-    @PermissionRestrict(permissions = {ApplicationPermissions.EDIT_PLACE})
+//    @PermissionRestrict(permissions = {ApplicationPermissions.EDIT_PLACE})
     public ResponseEntity<PlaceCto> updatePlace(Long id, PlaceTo placeTo) {
         try {
             return ResponseEntity
@@ -164,7 +164,7 @@ public class PlaceRestServiceImpl implements PlaceRestService {
     }
 
     @Override
-    @PermissionRestrict(permissions = {ApplicationPermissions.DELETE_PLACE})
+//    @PermissionRestrict(permissions = {ApplicationPermissions.DELETE_PLACE})
     public ResponseEntity<?> deletePlace(Long id) {
         try {
             placeHandling.deletePlace(id);

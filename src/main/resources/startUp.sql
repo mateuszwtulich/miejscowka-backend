@@ -177,3 +177,112 @@ INSERT INTO public.backend_user(
 INSERT INTO public.backend_user(
     id, name, surname, role_id, account_id)
     VALUES (1000002, 'Admin', 'Nazwisko', 100, 1000002);
+
+INSERT INTO public.category(
+    id, name, description)
+    VALUES (1000000, 'Restauracja', 'Restauracja');
+
+INSERT INTO public.category(
+    id, name, description)
+    VALUES (1000001, 'Bar', 'Bar');
+
+INSERT INTO public.category(
+    id, name, description)
+    VALUES (1000002, 'Basen', 'Basen');
+
+INSERT INTO public.category(
+    id, name, description)
+    VALUES (1000003, 'Siłowania', 'Siłownia');
+
+INSERT INTO public.category(
+    id, name, description)
+    VALUES (1000004, 'Hala sportowa', 'Hala sportowa');
+
+INSERT INTO public.category(
+    id, name, description)
+    VALUES (1000005, 'Billard Club', 'Billard Club');
+
+INSERT INTO public.place(
+    id, name, building_number, apartment_number, capacity, street, CATEGORY_ID, description)
+    VALUES (1000000, 'Cybermachina', 52, null, 23, 'Szczytnicka', 1000001, 'Cybermachina - pub inny niż wszystkie! Gry planszowe i na konsole bez dodatkowych opłat, wyśmienite piwo i smaczne drinki, a nad dobrą zabawą czuwa zespół pomocnych barmanów. Wstęp tylko dla pełnoletnich!');
+
+INSERT INTO public.place_image(
+    id, url, place_id)
+    VALUES (1000000, 'https://media-cdn.tripadvisor.com/media/photo-s/0d/0b/25/33/getlstd-property-photo.jpg', 1000000);
+
+INSERT INTO public.occupancy(
+    place_id, time_id, number_of_people, percentage)
+    VALUES  (1000000, '20-11-2021', 13, 60);
+
+INSERT INTO public.opening_hours(
+    place_id, monday_opening_hour, monday_closing_hour, tuesday_opening_hour, tuesday_closing_hour, wednesday_opening_hour, wednesday_closing_hour,
+    thursday_opening_hour, thursday_closing_hour, friday_opening_hour, friday_closing_hour, saturday_opening_hour, saturday_closing_hour, sunday_opening_hour, sunday_closing_hour)
+    VALUES (1000000, '16:00', '23:00', '16:00', '23:00', '16:00', '23:00', '16:00', '1:00', '16:00', '1:00', '16:00', '1:00', '16:00', '1:00');
+
+INSERT INTO public.place(
+    id, name, building_number, apartment_number, capacity, street, CATEGORY_ID, description)
+    VALUES (1000001, 'Remont', 20, null, 26, 'plac Grunwaldzki', 1000000, 'Pyszne dania i przekąski w stałym menu oraz codziennie inna zupa, danie dnia. Do tego dobre piwo, luźna atmosfera, stylowe wnętrze i studencki klimat.');
+
+INSERT INTO public.place_image(
+    id, url, place_id)
+    VALUES (1000001, 'https://media-cdn.tripadvisor.com/media/photo-s/11/aa/29/05/remont-bar-w-nowej-odslonie.jpg', 1000001);
+
+INSERT INTO public.occupancy(
+    place_id, time_id, number_of_people, percentage)
+    VALUES  (1000001, '20-11-2021', 8, 36);
+
+INSERT INTO public.opening_hours(
+    place_id, monday_opening_hour, monday_closing_hour, tuesday_opening_hour, tuesday_closing_hour, wednesday_opening_hour, wednesday_closing_hour,
+    thursday_opening_hour, thursday_closing_hour, friday_opening_hour, friday_closing_hour, saturday_opening_hour, saturday_closing_hour, sunday_opening_hour, sunday_closing_hour)
+    VALUES (1000001, '16:00', '23:00', '16:00', '23:00', '16:00', '23:00', '16:00', '1:00', '16:00', '1:00', '16:00', '1:00', '16:00', '1:00');
+
+INSERT INTO public.place(
+    id, name, building_number, apartment_number, capacity, street, CATEGORY_ID, description)
+    VALUES (1000002, 'Pizzeria Bravo', 18, null, 30, 'plac Grunwaldzki', 1000000, 'Pizzeria BRAVO - przestronny lokal z klimatem, skierowany między innymi do studentów. Słyniemy z wyśmienitej i zawsze gorącej pizzy, na którą nie czeka się długo i nie płaci dużo. Znajdujemy się w samym sercu Placu Grunwaldzkiego.');
+
+INSERT INTO public.place_image(
+    id, url, place_id)
+    VALUES (1000002, 'https://media-cdn.tripadvisor.com/media/photo-s/11/aa/29/05/remont-bar-w-nowej-odslonie.jpg', 1000002);
+
+INSERT INTO public.occupancy(
+    place_id, time_id, number_of_people, percentage)
+    VALUES  (1000002, '20-11-2021', 15, 50);
+
+INSERT INTO public.opening_hours(
+    place_id, monday_opening_hour, monday_closing_hour, tuesday_opening_hour, tuesday_closing_hour, wednesday_opening_hour, wednesday_closing_hour,
+    thursday_opening_hour, thursday_closing_hour, friday_opening_hour, friday_closing_hour, saturday_opening_hour, saturday_closing_hour, sunday_opening_hour, sunday_closing_hour)
+    VALUES (1000002, '16:00', '23:00', '16:00', '23:00', '16:00', '23:00', '16:00', '1:00', '16:00', '1:00', '16:00', '1:00', '16:00', '1:00');
+
+INSERT INTO public.place(
+    id, name, building_number, apartment_number, capacity, street, CATEGORY_ID, description)
+    VALUES (1000003, 'Fuga Mundi', 12, null, 40, 'plac Grunwaldzki', 1000005, 'Klub składa się z 5 sal: sali głównej, gdzie usytuowany jest bar i 7 stołów pool-bilardowych, salę poolową z 8 stołami do gry, salę snookerową z 3 stołami do gry snookera, salkę VIP.');
+
+INSERT INTO public.place_image(
+    id, url, place_id)
+    VALUES (1000003, 'https://media-cdn.tripadvisor.com/media/photo-s/0d/0b/25/33/getlstd-property-photo.jpg', 1000003);
+
+INSERT INTO public.occupancy(
+    place_id, time_id, number_of_people, percentage)
+    VALUES  (1000003, '20-11-2021', 30, 77);
+
+INSERT INTO public.opening_hours(
+    place_id, monday_opening_hour, monday_closing_hour, tuesday_opening_hour, tuesday_closing_hour, wednesday_opening_hour, wednesday_closing_hour,
+    thursday_opening_hour, thursday_closing_hour, friday_opening_hour, friday_closing_hour, saturday_opening_hour, saturday_closing_hour, sunday_opening_hour, sunday_closing_hour)
+    VALUES (1000003, '16:00', '23:00', '16:00', '23:00', '16:00', '23:00', '16:00', '1:00', '16:00', '1:00', '16:00', '1:00', '16:00', '1:00');
+
+INSERT INTO public.place(
+    id, name, building_number, apartment_number, capacity, street, CATEGORY_ID, description)
+    VALUES (1000004, 'Basen GEM', 2, null, 30, 'Józefa Mianowskiego', 1000002, 'Zapraszamy do korzystania z obiektów sportowych na terenie Hotelu Gem: basen kryty, korty tenisowe, hala wielofunkcyjna, sala fitness, boiska piłkarskie, siatkówka plażowa.');
+
+INSERT INTO public.place_image(
+    id, url, place_id)
+    VALUES (1000004, 'http://www.gemhotel.pl/sites/default/files/20141208/DSC05252.jpg', 1000004);
+
+INSERT INTO public.occupancy(
+    place_id, time_id, number_of_people, percentage)
+    VALUES  (1000004, '20-11-2021', 5, 15);
+
+INSERT INTO public.opening_hours(
+    place_id, monday_opening_hour, monday_closing_hour, tuesday_opening_hour, tuesday_closing_hour, wednesday_opening_hour, wednesday_closing_hour,
+    thursday_opening_hour, thursday_closing_hour, friday_opening_hour, friday_closing_hour, saturday_opening_hour, saturday_closing_hour, sunday_opening_hour, sunday_closing_hour)
+    VALUES (1000004, '16:00', '23:00', '16:00', '23:00', '16:00', '23:00', '16:00', '1:00', '16:00', '1:00', '16:00', '1:00', '16:00', '1:00');

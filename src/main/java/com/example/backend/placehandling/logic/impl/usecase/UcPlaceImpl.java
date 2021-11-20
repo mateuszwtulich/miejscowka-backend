@@ -217,8 +217,8 @@ public class UcPlaceImpl implements UcPlace {
 
         if(occupancyEntityOpt.isPresent()){
             OccupancyTo occupancyTo = new OccupancyTo();
-            occupancyTo.setNumber_of_people(occupancyEntityOpt.get().getNumber_of_people());
-            occupancyTo.setPercentage_occupancy(occupancyEntityOpt.get().getPercentage_occupancy());
+            occupancyTo.setNumberOfPeople(occupancyEntityOpt.get().getNumber_of_people());
+            occupancyTo.setPercentageOccupancy(occupancyEntityOpt.get().getPercentage_occupancy());
             placeCto.setLastOccupancyTo(occupancyTo);
         }
 

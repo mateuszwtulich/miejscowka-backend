@@ -4,7 +4,6 @@ import com.example.backend.general.logic.api.exception.EntityDoesNotExistExcepti
 import com.example.backend.occupancyhandling.dataaccess.api.dao.OccupancyDao;
 import com.example.backend.occupancyhandling.dataaccess.api.entity.OccupancyEntity;
 import com.example.backend.occupancyhandling.dataaccess.api.entity.OccupancyId;
-import com.example.backend.occupancyhandling.logic.api.mapper.OccupancyMapper;
 import com.example.backend.occupancyhandling.logic.api.to.OccupancyTo;
 import com.example.backend.occupancyhandling.logic.api.usecase.UcOccupancy;
 import com.example.backend.placehandling.dataaccess.api.dao.PlaceDao;
@@ -16,11 +15,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Validated
@@ -74,8 +69,8 @@ public class UcOccupancyImpl implements UcOccupancy {
     private OccupancyTo toOccupancyTo(OccupancyEntity occupancyEntity){
         OccupancyTo occupancyTo = new OccupancyTo();
 
-        occupancyTo.setNumber_of_people(occupancyEntity.getNumber_of_people());
-        occupancyTo.setPercentage_occupancy(occupancyEntity.getPercentage_occupancy());
+        occupancyTo.setNumberOfPeople(occupancyEntity.getNumber_of_people());
+        occupancyTo.setPercentageOccupancy(occupancyEntity.getPercentage_occupancy());
         return  occupancyTo;
     }
 

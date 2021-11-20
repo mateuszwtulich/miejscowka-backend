@@ -2,38 +2,37 @@ package com.example.backend.occupancyhandling.logic.api.to;
 
 import com.sun.istack.NotNull;
 
-import javax.persistence.Column;
 import java.util.Objects;
 
 public class OccupancyTo {
 
     @NotNull
-    private int number_of_people;
+    private int numberOfPeople;
 
-    private int percentage_occupancy;
+    private int percentageOccupancy;
 
     public OccupancyTo() {
     }
 
-    public OccupancyTo(int number_of_people, int percentage_occupancy) {
-        this.number_of_people = number_of_people;
-        this.percentage_occupancy = percentage_occupancy;
+    public OccupancyTo(int number_of_people, int percentageOccupancy) {
+        this.numberOfPeople = number_of_people;
+        this.percentageOccupancy = percentageOccupancy;
     }
 
-    public int getNumber_of_people() {
-        return number_of_people;
+    public int getNumberOfPeople() {
+        return numberOfPeople;
     }
 
-    public void setNumber_of_people(int number_of_people) {
-        this.number_of_people = number_of_people;
+    public void setNumberOfPeople(int numberOfPeople) {
+        this.numberOfPeople = numberOfPeople;
     }
 
-    public int getPercentage_occupancy() {
-        return percentage_occupancy;
+    public int getPercentageOccupancy() {
+        return percentageOccupancy;
     }
 
-    public void setPercentage_occupancy(int percentage_occupancy) {
-        this.percentage_occupancy = percentage_occupancy;
+    public void setPercentageOccupancy(int percentageOccupancy) {
+        this.percentageOccupancy = percentageOccupancy;
     }
 
     @Override
@@ -41,12 +40,12 @@ public class OccupancyTo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OccupancyTo that = (OccupancyTo) o;
-        return number_of_people == that.number_of_people &&
-                percentage_occupancy == that.percentage_occupancy;
+        return numberOfPeople == that.numberOfPeople &&
+                percentageOccupancy == that.percentageOccupancy;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number_of_people, percentage_occupancy);
+        return Objects.hash(numberOfPeople, percentageOccupancy);
     }
 }
