@@ -44,7 +44,7 @@ public class ScopePermissionAspect {
         .getRequest();
 
     String url = request.getRequestURL().toString();
-    if(!url.contains("/user/v1/user/account/registrationConfirm")) {
+    if(!url.contains("/user/account/registrationConfirm")) {
 
       String authorizationHeader = request.getHeader("Authorization");
       String token = authorizationHeader.replace("Bearer ", "");

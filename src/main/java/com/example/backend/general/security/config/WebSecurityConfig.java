@@ -40,11 +40,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .addFilter(new JwtUserAuthenticationFilter(authenticationManager(), ucLogin))
         .addFilterAfter(new JwtVerifier(), JwtUserAuthenticationFilter.class)
         .authorizeRequests()
-        .antMatchers("/user/v1/user/signup").permitAll()
+        .antMatchers("/user/signup").permitAll()
         .antMatchers("/place/category").permitAll()
         .antMatchers("/place").permitAll()
         .antMatchers("/place/**").permitAll()
-        .antMatchers("/user/v1/user/account/registrationConfirm**").permitAll()
+        .antMatchers("/user/account/registrationConfirm**").permitAll()
         .antMatchers("/v2/api-docs",
             "/configuration/ui",
             "/swagger-resources",

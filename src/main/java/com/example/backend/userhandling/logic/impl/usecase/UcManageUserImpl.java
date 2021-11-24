@@ -125,8 +125,7 @@ public class UcManageUserImpl implements UcManageUser {
     AccountEntity accountEntity = createAccountEntities(accountTo);
 
     List<PermissionEntity> permissionEntityList = new ArrayList<>();
-    permissionEntityList.add(permissionDao.findById(12L).get());
-    permissionEntityList.add(permissionDao.findById(11L).get());
+    permissionEntityList.add(permissionDao.findById(21L).get());
 
     RoleEntity roleEntity = new RoleEntity();
     roleEntity.setName(userTo.getSurname());

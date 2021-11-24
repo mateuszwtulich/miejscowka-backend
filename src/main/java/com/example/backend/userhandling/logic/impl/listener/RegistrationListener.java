@@ -50,7 +50,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     String subject = messages.getMessage("message.regTitle", null, event.getLocale());
 
     StringBuilder confirmationUrl = new StringBuilder();
-    confirmationUrl.append(event.getAppUrl() + "/user/v1/user/account/registrationConfirm?token=" + verificationTokenEntity.getToken());
+    confirmationUrl.append(event.getAppUrl() + "/user/account/registrationConfirm?token=" + verificationTokenEntity.getToken());
 
     StringBuilder message = new StringBuilder();
     message.append(messages.getMessage("message.regSucc", null, event.getLocale()));
