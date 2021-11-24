@@ -43,7 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/user/signup").permitAll()
         .antMatchers("/place/category").permitAll()
         .antMatchers("/place").permitAll()
-        .antMatchers("/place/**").permitAll()
         .antMatchers("/user/account/registrationConfirm**").permitAll()
         .antMatchers("/v2/api-docs",
             "/configuration/ui",
