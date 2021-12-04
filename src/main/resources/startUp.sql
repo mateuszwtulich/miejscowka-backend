@@ -172,7 +172,7 @@ INSERT INTO public.place_image(
 
 INSERT INTO public.occupancy(
     place_id, time_id, number_of_people, percentage)
-    VALUES  (1000000, '20-11-2021', 13, 60);
+    VALUES  (1000000, '2021-11-11', 13, 60);
 
 INSERT INTO public.opening_hours(
     place_id, monday_opening_hour, monday_closing_hour, tuesday_opening_hour, tuesday_closing_hour, wednesday_opening_hour, wednesday_closing_hour,
@@ -189,7 +189,7 @@ INSERT INTO public.place_image(
 
 INSERT INTO public.occupancy(
     place_id, time_id, number_of_people, percentage)
-    VALUES  (1000001, '20-11-2021', 8, 36);
+    VALUES  (1000001, '2021-11-11', 8, 36);
 
 INSERT INTO public.opening_hours(
     place_id, monday_opening_hour, monday_closing_hour, tuesday_opening_hour, tuesday_closing_hour, wednesday_opening_hour, wednesday_closing_hour,
@@ -206,7 +206,7 @@ INSERT INTO public.place_image(
 
 INSERT INTO public.occupancy(
     place_id, time_id, number_of_people, percentage)
-    VALUES  (1000002, '20-11-2021', 15, 50);
+    VALUES  (1000002, '2021-11-11', 15, 50);
 
 INSERT INTO public.opening_hours(
     place_id, monday_opening_hour, monday_closing_hour, tuesday_opening_hour, tuesday_closing_hour, wednesday_opening_hour, wednesday_closing_hour,
@@ -223,7 +223,7 @@ INSERT INTO public.place_image(
 
 INSERT INTO public.occupancy(
     place_id, time_id, number_of_people, percentage)
-    VALUES  (1000003, '20-11-2021', 30, 77);
+    VALUES  (1000003, '2021-11-11', 30, 77);
 
 INSERT INTO public.opening_hours(
     place_id, monday_opening_hour, monday_closing_hour, tuesday_opening_hour, tuesday_closing_hour, wednesday_opening_hour, wednesday_closing_hour,
@@ -240,7 +240,7 @@ INSERT INTO public.place_image(
 
 INSERT INTO public.occupancy(
     place_id, time_id, number_of_people, percentage)
-    VALUES  (1000004, '20-11-2021', 5, 15);
+    VALUES  (1000004, '2021-11-11', 5, 15);
 
 INSERT INTO public.opening_hours(
     place_id, monday_opening_hour, monday_closing_hour, tuesday_opening_hour, tuesday_closing_hour, wednesday_opening_hour, wednesday_closing_hour,
