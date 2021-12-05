@@ -8,7 +8,6 @@ import com.example.backend.occupancyhandling.logic.api.to.OccupancyTo;
 import com.example.backend.occupancyhandling.logic.api.usecase.UcOccupancy;
 import com.example.backend.placehandling.dataaccess.api.dao.PlaceDao;
 import com.example.backend.placehandling.dataaccess.api.entity.PlaceEntity;
-import com.example.backend.taskhandling.logic.impl.usecase.UcManageTaskImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +20,7 @@ import java.util.Optional;
 @Validated
 @Named
 public class UcOccupancyImpl implements UcOccupancy {
-    private static final Logger LOG = LoggerFactory.getLogger(UcManageTaskImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UcOccupancyImpl.class);
     private static final String UPDATE_OCCUPANCY_LOG = "Update Occupancy with placeId {} in database.";
 
     @Inject

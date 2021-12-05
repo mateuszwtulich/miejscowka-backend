@@ -8,7 +8,6 @@ import com.example.backend.placehandling.logic.api.mapper.CategoryMapper;
 import com.example.backend.placehandling.logic.api.to.CategoryEto;
 import com.example.backend.placehandling.logic.api.to.CategoryTo;
 import com.example.backend.placehandling.logic.api.usecase.UcCategory;
-import com.example.backend.taskhandling.logic.impl.usecase.UcManageTaskImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
 @Named
 public class UcCategoryImpl implements UcCategory {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UcManageTaskImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UcCategoryImpl.class);
     private static final String ID_CANNOT_BE_NULL = "id cannot be a null value";
     private static final String CREATE_CATEGORY_LOG = "Create Category with name {} in database.";
     private static final String UPDATE_CATEGORY_LOG = "Update Category with id {} in database.";
