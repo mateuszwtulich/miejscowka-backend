@@ -17,7 +17,6 @@ import com.example.backend.placehandling.logic.api.to.OpeningHoursTo;
 import com.example.backend.placehandling.logic.api.to.PlaceCto;
 import com.example.backend.placehandling.logic.api.to.PlaceTo;
 import com.example.backend.placehandling.logic.api.usecase.UcPlace;
-import com.example.backend.taskhandling.logic.impl.usecase.UcManageTaskImpl;
 import com.example.backend.userhandling.dataaccess.api.dao.UserDao;
 import com.example.backend.userhandling.dataaccess.api.entity.UserEntity;
 import org.slf4j.Logger;
@@ -33,7 +32,7 @@ import java.util.stream.Collectors;
 @Named
 public class UcPlaceImpl implements UcPlace {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UcManageTaskImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UcPlaceImpl.class);
     private static final String ID_CANNOT_BE_NULL = "id cannot be a null value";
     private static final String CREATE_PLACE_LOG = "Create Place with name {} in database.";
     private static final String UPDATE_PLACE_LOG = "Update Place with id {} in database.";

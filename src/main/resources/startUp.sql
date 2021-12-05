@@ -36,16 +36,16 @@ id, description, name)
 VALUES (16, 'User has possibility to get PLACES.', 'GET_PLACES');
 INSERT INTO public.permission(
 id, description, name)
-VALUES (17, 'User has possibility to get TASKS.', 'EDIT_CATEGORY');
+VALUES (17, 'User has possibility to get CATEGORIES.', 'EDIT_CATEGORY');
 INSERT INTO public.permission(
 id, description, name)
-VALUES (18, 'User has possibility to get TASKS.', 'ADD_CATEGORY');
+VALUES (18, 'User has possibility to add CATEGORIES.', 'ADD_CATEGORY');
 INSERT INTO public.permission(
 id, description, name)
-VALUES (19, 'User has possibility to get TASKS.', 'DELETE_CATEGORY');
+VALUES (19, 'User has possibility to delete CATEGORIES.', 'DELETE_CATEGORY');
 INSERT INTO public.permission(
 id, description, name)
-VALUES (20, 'User has possibility to get TASKS.', 'GET_CATEGORIES');
+VALUES (20, 'User has possibility to get CATEGORIES.', 'GET_CATEGORIES');
 INSERT INTO public.permission(
 id, description, name)
 VALUES (21, 'User has possibility to get favourite places.', 'GET_FAVOURITE');
