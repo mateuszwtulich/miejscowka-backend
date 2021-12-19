@@ -20,7 +20,7 @@ public class PlaceCto extends AbstractApplicationEntityTransportObject {
     private String name;
 
     @NotNull
-    private String capacity;
+    private int capacity;
 
     private String description;
 
@@ -45,7 +45,7 @@ public class PlaceCto extends AbstractApplicationEntityTransportObject {
     public PlaceCto() {
     }
 
-    public PlaceCto(Long id, String name, String capacity, String description, String street, String buildingNumber, String apartmentNumber, String categoryName, OccupancyTo lastOccupancyTo, Boolean isFavourite, String imageUrl, OpeningHoursTo openingHoursTo) {
+    public PlaceCto(Long id, String name, int capacity, String description, String street, String buildingNumber, String apartmentNumber, String categoryName, OccupancyTo lastOccupancyTo, Boolean isFavourite, String imageUrl, OpeningHoursTo openingHoursTo) {
         super(id);
         this.name = name;
         this.capacity = capacity;
@@ -68,11 +68,11 @@ public class PlaceCto extends AbstractApplicationEntityTransportObject {
         this.name = name;
     }
 
-    public String getCapacity() {
+    public int getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 

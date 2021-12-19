@@ -1,10 +1,14 @@
-version: '1'
+version: '2'
 
 services:
-  Backend:
-    image: 'miejscowka-backend:latest'
+  occupancy-simulator-micoservice:
+    container_name: miejscowka-occupancysimulator
+    build:
+      context: ../miejscowka-occupancysimulator
+      dockerfile: Dockerfile
+    image: 'miejscowka-occupancysimulator:latest'
     ports:
-      - "8090:8080"
+      - "8050:8050"
     depends_on:
       PostgreSQL:
         condition: service_healthy
@@ -13,6 +17,67 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - app_service_port=8060
+      - app_service_domain=occupancy-receiver-micoservice
+  occupancy-receiver-micoservice:
+    container_name: miejscowka-occupancy-receiver
+    build:
+      context: ../miejscowka-occupancy-receiver
+      dockerfile: Dockerfile
+    image: 'miejscowka-occupancy-receiver:latest'
+    ports:
+      - "8060:8060"
+    depends_on:
+      PostgreSQL:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/Miejscowka
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - app_service_domain=occupancy-modeling-micoservice
+  occupancy-modeling-micoservice:
+    container_name: miejscowka-occupancymodeling
+    build:
+      context: ../miejscowka-occupancymodeling
+      dockerfile: Dockerfile
+    image: 'miejscowka-occupancy-modeling:latest'
+    ports:
+      - "8070:8070"
+    depends_on:
+      PostgreSQL:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/Miejscowka
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      
+  Backend:
+    container_name: miejscowka-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: 'miejscowka-backend:latest'
+    ports:
+      - "8080:8080"
+    depends_on:
+      PostgreSQL:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/Miejscowka
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  Frontend:
+    container_name: miejscowka-frontend
+    build:
+      context: ../miejscowka-frontend
+      dockerfile: Dockerfile
+    image: 'miejscowka-frontend:latest'
+    ports:
+      - "4200:80"
 
   PostgreSQL:
     image: postgres
