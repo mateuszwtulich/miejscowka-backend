@@ -1,12 +1,19 @@
-Precondition : Install docker from https://hub.docker.com for windows 10. For another win OS install also docker toolbox.
+Setup for ruining docker from backend folder
+
+
+Precondition : 
+Install docker from https://hub.docker.com for windows 10. For another win OS install also docker toolbox.
+set folders as "context" described in docker-compose.yml or change context values to match your folders.
 
 Setup docker containers :
-1.Build frontend docker image: run in cmd "docker build -t miejscowka-frontend ." inside frontend dir.
-2.Build backend docker image: run in cmd "docker build -t miejscowka-backend ." inside backend dir.
-3.Start compose containers from file "docker-compose.yml" (defaulty in backend dir) with command "docker-compose up"
+1. Build project "docker-compose -f "docker-compose.yml" build"
+2. Start compose containers from file "docker-compose.yml" (defaulty in backend dir) with command "docker-compose -f "docker-compose.yml" up"
 
-Now backend is running on localhost:8090 
-frontend localhost:4200 
+backend localhost:8090 
+frontend-localhost:4200 
+occupancy-simulator-micoservice localhost:8050
+occupancy-receiver-micoservice localhost:8060 
+occupancy-modeling-micoservice localhost:8070
 postgres localhost:5050
 (ports are mapped from docker network in compose file)
 
