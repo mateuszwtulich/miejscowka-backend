@@ -110,9 +110,6 @@ INSERT INTO public.place(id, name, building_number, apartment_number, capacity, 
 VALUES (1000000, 'Cybermachina', 52, null, 23, 'Szczytnicka', 1000001,
         'Cybermachina - pub inny niż wszystkie! Gry planszowe i na konsole bez dodatkowych opłat, wyśmienite piwo i smaczne drinki, a nad dobrą zabawą czuwa zespół pomocnych barmanów. Wstęp tylko dla pełnoletnich!');
 
-INSERT INTO public.place_image(id, url, place_id)
-VALUES (1000000, 'https://media-cdn.tripadvisor.com/media/photo-s/0d/0b/25/33/getlstd-property-photo.jpg', 1000000);
-
 INSERT INTO public.occupancy(place_id, time_id, number_of_people, percentage)
 VALUES (1000000, '2021-11-20', 13, 60);
 
@@ -126,10 +123,6 @@ VALUES (1000000, '16:00', '23:00', '16:00', '23:00', '16:00', '23:00', '16:00', 
 INSERT INTO public.place(id, name, building_number, apartment_number, capacity, street, CATEGORY_ID, description)
 VALUES (1000001, 'Remont', 20, null, 26, 'plac Grunwaldzki', 1000000,
         'Pyszne dania i przekąski w stałym menu oraz codziennie inna zupa, danie dnia. Do tego dobre piwo, luźna atmosfera, stylowe wnętrze i studencki klimat.');
-
-INSERT INTO public.place_image(id, url, place_id)
-VALUES (1000001, 'https://media-cdn.tripadvisor.com/media/photo-s/11/aa/29/05/remont-bar-w-nowej-odslonie.jpg',
-        1000001);
 
 INSERT INTO public.occupancy(place_id, time_id, number_of_people, percentage)
 VALUES (1000001, '2021-11-20', 8, 36);
@@ -145,10 +138,6 @@ INSERT INTO public.place(id, name, building_number, apartment_number, capacity, 
 VALUES (1000002, 'Pizzeria Bravo', 18, null, 30, 'plac Grunwaldzki', 1000000,
         'Pizzeria BRAVO - przestronny lokal z klimatem, skierowany między innymi do studentów. Słyniemy z wyśmienitej i zawsze gorącej pizzy, na którą nie czeka się długo i nie płaci dużo. Znajdujemy się w samym sercu Placu Grunwaldzkiego.');
 
-INSERT INTO public.place_image(id, url, place_id)
-VALUES (1000002, 'https://media-cdn.tripadvisor.com/media/photo-s/11/aa/29/05/remont-bar-w-nowej-odslonie.jpg',
-        1000002);
-
 INSERT INTO public.occupancy(place_id, time_id, number_of_people, percentage)
 VALUES (1000002, '2021-11-20', 15, 50);
 
@@ -162,9 +151,6 @@ VALUES (1000002, '16:00', '23:00', '16:00', '23:00', '16:00', '23:00', '16:00', 
 INSERT INTO public.place(id, name, building_number, apartment_number, capacity, street, CATEGORY_ID, description)
 VALUES (1000003, 'Fuga Mundi', 12, null, 40, 'plac Grunwaldzki', 1000005,
         'Klub składa się z 5 sal: sali głównej, gdzie usytuowany jest bar i 7 stołów pool-bilardowych, salę poolową z 8 stołami do gry, salę snookerową z 3 stołami do gry snookera, salkę VIP.');
-
-INSERT INTO public.place_image(id, url, place_id)
-VALUES (1000003, 'https://media-cdn.tripadvisor.com/media/photo-s/0d/0b/25/33/getlstd-property-photo.jpg', 1000003);
 
 INSERT INTO public.occupancy(place_id, time_id, number_of_people, percentage)
 VALUES (1000003, '2021-11-20', 30, 77);
@@ -180,9 +166,6 @@ INSERT INTO public.place(id, name, building_number, apartment_number, capacity, 
 VALUES (1000004, 'Basen GEM', 2, null, 30, 'Józefa Mianowskiego', 1000002,
         'Zapraszamy do korzystania z obiektów sportowych na terenie Hotelu Gem: basen kryty, korty tenisowe, hala wielofunkcyjna, sala fitness, boiska piłkarskie, siatkówka plażowa.');
 
-INSERT INTO public.place_image(id, url, place_id)
-VALUES (1000004, 'http://www.gemhotel.pl/sites/default/files/20141208/DSC05252.jpg', 1000004);
-
 INSERT INTO public.occupancy(place_id, time_id, number_of_people, percentage)
 VALUES (1000004, '2021-11-20', 5, 15);
 
@@ -196,9 +179,6 @@ VALUES (1000004, '16:00', '23:00', '16:00', '23:00', '16:00', '23:00', '16:00', 
 INSERT INTO public.place(id, name, building_number, apartment_number, capacity, street, CATEGORY_ID, description)
 VALUES (1000005, 'Biblioteka miejska', 2, null, 40, 'Wyszyńskiego', 1000006,
         'Biblioteka z książkami');
-
-INSERT INTO public.place_image(id, url, place_id)
-VALUES (1000005, 'https://upload.wikimedia.org/wikipedia/commons/0/07/Dolnoslaska_Biblioteka_Publiczna_1.JPG', 1000005);
 
 INSERT INTO public.occupancy(place_id, time_id, number_of_people, percentage)
 VALUES (1000005, '2021-11-20', 8, 20);
@@ -215,11 +195,6 @@ INSERT INTO public.place(id, name, building_number, apartment_number, capacity, 
 VALUES (1000006, 'Biblioteka Uniwersytetu Wrocławskiego', 31, null, 100, 'Kołątaja', 1000006,
         'Biblioteka z książkami');
 
-INSERT INTO public.place_image(id, url, place_id)
-VALUES (1000006,
-        'https://upload.wikimedia.org/wikipedia/commons/a/a4/Wroclaw_University_Library_2017_%28cropped%29.jpg',
-        1000006);
-
 INSERT INTO public.occupancy(place_id, time_id, number_of_people, percentage)
 VALUES (1000006, '2021-11-20', 33, 33);
 
@@ -234,9 +209,6 @@ VALUES (1000006, '8:00', '18:00', '8:00', '18:00', '8:00', '18:00', '8:00', '18:
 INSERT INTO public.place(id, name, building_number, apartment_number, capacity, street, CATEGORY_ID, description)
 VALUES (1000007, 'Hala Orbita', 1, null, 300, 'Wrocławska', 1000004,
         'Siownie, Baseny, Korty Tenisowe, Bar');
-
-INSERT INTO public.place_image(id, url, place_id)
-VALUES (1000007, 'https://www.wroclaw.pl/twg2017/files/news/hala-orbita9-jpg.jpg', 1000007);
 
 INSERT INTO public.occupancy(place_id, time_id, number_of_people, percentage)
 VALUES (1000007, '2021-11-20', 50, 16);

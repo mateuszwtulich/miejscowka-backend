@@ -37,7 +37,9 @@ public class PlaceCto extends AbstractApplicationEntityTransportObject {
 
     private Boolean isFavourite;
 
-    private String imageUrl;
+    private String imageName;
+
+    private String imageBase64;
 
     private OpeningHoursTo openingHoursTo;
 
@@ -45,7 +47,7 @@ public class PlaceCto extends AbstractApplicationEntityTransportObject {
     public PlaceCto() {
     }
 
-    public PlaceCto(Long id, String name, int capacity, String description, String street, String buildingNumber, String apartmentNumber, String categoryName, OccupancyTo lastOccupancyTo, Boolean isFavourite, String imageUrl, OpeningHoursTo openingHoursTo) {
+    public PlaceCto(Long id, String name, int capacity, String description, String street, String buildingNumber, String apartmentNumber, String categoryName, OccupancyTo lastOccupancyTo, Boolean isFavourite, String imageName, String imageBase64, OpeningHoursTo openingHoursTo) {
         super(id);
         this.name = name;
         this.capacity = capacity;
@@ -56,7 +58,8 @@ public class PlaceCto extends AbstractApplicationEntityTransportObject {
         this.categoryName = categoryName;
         this.lastOccupancyTo = lastOccupancyTo;
         this.isFavourite = isFavourite;
-        this.imageUrl = imageUrl;
+        this.imageName = imageName;
+        this.imageBase64 = imageBase64;
         this.openingHoursTo = openingHoursTo;
     }
 
@@ -132,12 +135,20 @@ public class PlaceCto extends AbstractApplicationEntityTransportObject {
         isFavourite = favourite;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImageName() {
+        return imageName;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 
     public OpeningHoursTo getOpeningHoursTo() {
@@ -154,21 +165,22 @@ public class PlaceCto extends AbstractApplicationEntityTransportObject {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         PlaceCto placeCto = (PlaceCto) o;
-        return Objects.equals(name, placeCto.name) &&
-                Objects.equals(capacity, placeCto.capacity) &&
-                Objects.equals(description, placeCto.description) &&
-                Objects.equals(street, placeCto.street) &&
-                Objects.equals(buildingNumber, placeCto.buildingNumber) &&
-                Objects.equals(apartmentNumber, placeCto.apartmentNumber) &&
-                Objects.equals(categoryName, placeCto.categoryName) &&
-                Objects.equals(lastOccupancyTo, placeCto.lastOccupancyTo) &&
-                Objects.equals(isFavourite, placeCto.isFavourite) &&
-                Objects.equals(imageUrl, placeCto.imageUrl) &&
-                Objects.equals(openingHoursTo, placeCto.openingHoursTo);
+        return capacity == placeCto.capacity &&
+            Objects.equals(name, placeCto.name) &&
+            Objects.equals(description, placeCto.description) &&
+            Objects.equals(street, placeCto.street) &&
+            Objects.equals(buildingNumber, placeCto.buildingNumber) &&
+            Objects.equals(apartmentNumber, placeCto.apartmentNumber) &&
+            Objects.equals(categoryName, placeCto.categoryName) &&
+            Objects.equals(lastOccupancyTo, placeCto.lastOccupancyTo) &&
+            Objects.equals(isFavourite, placeCto.isFavourite) &&
+            Objects.equals(imageName, placeCto.imageName) &&
+            Objects.equals(imageBase64, placeCto.imageBase64) &&
+            Objects.equals(openingHoursTo, placeCto.openingHoursTo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, capacity, description, street, buildingNumber, apartmentNumber, categoryName, lastOccupancyTo, isFavourite, imageUrl, openingHoursTo);
+        return Objects.hash(super.hashCode(), name, capacity, description, street, buildingNumber, apartmentNumber, categoryName, lastOccupancyTo, isFavourite, imageName, imageBase64, openingHoursTo);
     }
 }

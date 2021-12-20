@@ -76,7 +76,7 @@ public class UcPlaceImpl implements UcPlace {
         CategoryEntity categoryEntity = getCategoryById(placeTo.getCategoryId());
         placeEntity.setCategory(categoryEntity);
 
-        updatePlaceImageEntity(placeEntity, placeTo.getImageUrl());
+        updatePlaceImageEntity(placeEntity, placeTo);
 
         placeEntity.setOpeningHours(createOpeningHoursEntity(placeTo, placeEntity));
 
@@ -98,8 +98,7 @@ public class UcPlaceImpl implements UcPlace {
 
         CategoryEntity categoryEntity = getCategoryById(placeTo.getCategoryId());
         placeEntity.setCategory(categoryEntity);
-
-        updatePlaceImageEntity(placeEntity, placeTo.getImageUrl());
+        updatePlaceImageEntity(placeEntity, placeTo);
 
         OpeningHoursEntity openingHoursEntity = openingHoursMapper.toOpeningHoursEntity(placeTo.getOpeningHoursTo());
         if(!placeEntity.getOpeningHours().equals(openingHoursEntity)){
@@ -203,8 +202,10 @@ public class UcPlaceImpl implements UcPlace {
         PlaceCto placeCto = placeMapper.toPlaceCto(placeEntity);
 
         placeCto.setCategoryName( placeEntity.getCategory().getName());
-        if(!placeEntity.getPlaceImages().isEmpty())
-            placeCto.setImageUrl(placeEntity.getPlaceImages().get(0).getUrl());
+        if(!placeEntity.getPlaceImages().isEmpty()) {
+            placeCto.setImageName(placeEntity.getPlaceImages().get(0).getName());
+            placeCto.setImageBase64(Base64.getEncoder().encodeToString(placeEntity.getPlaceImages().get(0).getBase64()));
+        }
         placeCto.setOpeningHoursTo(toOpeningHoursTo(placeEntity.getOpeningHours()));
 
         if(userId != null && placeEntity.getUsers().stream().anyMatch(userEntity -> userEntity.getId().equals(userId))){
@@ -265,17 +266,24 @@ public class UcPlaceImpl implements UcPlace {
                 new EntityDoesNotExistException("Category with id " + categoryId + " does not exists"));
     }
 
-    private void updatePlaceImageEntity(PlaceEntity placeEntity, String imageUrl){
+    private void updatePlaceImageEntity(PlaceEntity placeEntity, PlaceTo placeTo){
 
         List<PlaceImageEntity> images = placeImageDao.findAllByPlace_Id(placeEntity.getId());
-        if(images.stream().anyMatch(o -> o.getUrl().equals(imageUrl))){
+        if(images.stream().anyMatch(o -> o.getName().equals(placeTo.getImageName()))){
             //imageUrl already exists
             //do nothing
         }else {
             //imageUrl doesn't exist
-            PlaceImageEntity placeImageEntity = new PlaceImageEntity();
-            placeImageEntity.setUrl(imageUrl);
-            placeEntity.addPlaceImage(placeImageEntity);
+            if (images.size() > 0) {
+                images.get(0).setBase64(Base64.getDecoder().decode(placeTo.getBase64Image()));
+                images.get(0).setName(placeTo.getName());
+            } else {
+                PlaceImageEntity placeImageEntity = new PlaceImageEntity();
+                placeImageEntity.setName(placeTo.getName());
+                byte[] decodedBytes = Base64.getDecoder().decode(placeTo.getBase64Image());
+                placeImageEntity.setBase64(decodedBytes);
+                placeEntity.addPlaceImage(placeImageEntity);
+            }
         }
 
     }
