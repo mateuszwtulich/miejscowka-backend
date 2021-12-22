@@ -1,5 +1,6 @@
 package com.example.backend.placehandling.logic.api.to;
 
+import com.example.backend.occupancyhandling.logic.api.to.OccupancyTo;
 import com.sun.istack.NotNull;
 
 import java.util.Objects;
@@ -23,13 +24,14 @@ public class PlaceTo {
     @NotNull
     private Long categoryId;
 
-    private String imageName;
-
-    private String base64Image;
+    private String imageUrl;
 
     private OpeningHoursTo openingHoursTo;
 
-    public PlaceTo(String name, Integer capacity, String description, String street, String buildingNumber, String apartmentNumber, Long categoryId, String imageName, String base64Image, OpeningHoursTo openingHoursTo) {
+    public PlaceTo() {
+    }
+
+    public PlaceTo(String name, Integer capacity, String description, String street, String buildingNumber, String apartmentNumber, Long categoryId, String imageUrl, OpeningHoursTo openingHoursTo) {
         this.name = name;
         this.capacity = capacity;
         this.description = description;
@@ -37,12 +39,8 @@ public class PlaceTo {
         this.buildingNumber = buildingNumber;
         this.apartmentNumber = apartmentNumber;
         this.categoryId = categoryId;
-        this.imageName = imageName;
-        this.base64Image = base64Image;
+        this.imageUrl = imageUrl;
         this.openingHoursTo = openingHoursTo;
-    }
-
-    public PlaceTo() {
     }
 
     public String getName() {
@@ -101,20 +99,12 @@ public class PlaceTo {
         this.categoryId = categoryId;
     }
 
-    public String getImageName() {
-        return imageName;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
-
-    public String getBase64Image() {
-        return base64Image;
-    }
-
-    public void setBase64Image(String base64Image) {
-        this.base64Image = base64Image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public OpeningHoursTo getOpeningHoursTo() {
@@ -131,19 +121,18 @@ public class PlaceTo {
         if (o == null || getClass() != o.getClass()) return false;
         PlaceTo placeTo = (PlaceTo) o;
         return Objects.equals(name, placeTo.name) &&
-            Objects.equals(capacity, placeTo.capacity) &&
-            Objects.equals(description, placeTo.description) &&
-            Objects.equals(street, placeTo.street) &&
-            Objects.equals(buildingNumber, placeTo.buildingNumber) &&
-            Objects.equals(apartmentNumber, placeTo.apartmentNumber) &&
-            Objects.equals(categoryId, placeTo.categoryId) &&
-            Objects.equals(imageName, placeTo.imageName) &&
-            Objects.equals(base64Image, placeTo.base64Image) &&
-            Objects.equals(openingHoursTo, placeTo.openingHoursTo);
+                Objects.equals(capacity, placeTo.capacity) &&
+                Objects.equals(description, placeTo.description) &&
+                Objects.equals(street, placeTo.street) &&
+                Objects.equals(buildingNumber, placeTo.buildingNumber) &&
+                Objects.equals(apartmentNumber, placeTo.apartmentNumber) &&
+                Objects.equals(categoryId, placeTo.categoryId) &&
+                Objects.equals(imageUrl, placeTo.imageUrl) &&
+                Objects.equals(openingHoursTo, placeTo.openingHoursTo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, capacity, description, street, buildingNumber, apartmentNumber, categoryId, imageName, base64Image, openingHoursTo);
+        return Objects.hash(name, capacity, description, street, buildingNumber, apartmentNumber, categoryId, imageUrl, openingHoursTo);
     }
 }
